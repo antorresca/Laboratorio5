@@ -13,6 +13,7 @@
 #define DATA_OUT LATC2
 
 unsigned char Temp, Hum;
+unsigned char TempEEPROM;
 unsigned char TempEEPROM;//Para el bonus
 unsigned int A=0,B= 0;//valor de entrada para seleccionar unidades de temperatura
 
@@ -38,20 +39,26 @@ void main(void) {
     OSCCON = 0b01110000; //Establece el reloj interno en 8Mhz
     __delay_ms(1);
     DATA_OUT = 0;
-    TXSTA = 0b00100100; //Configuraci?n del transmisor, habilitaci?n del transmisor y modo asincr?nico, alta velocidades
+    TXSTA = 0b00100000; //Configuraci?n del transmisor, habilitaci?n del transmisor y modo asincr?nico, bajas velocidades
     RCSTA = 0b10010000; //Configuraci?n del receptor, habilitaci?n del modulo EUSART, se habilita el receptor
     BAUDCON = 0b00000000; //Configuracion del modulo adc, no inversion logica, divisor de frecuencia 8bits, modo bajo consumo desactivado,
     //autodeteccion de velocidad off.
-    SPBRG = 12; //Valor para la vel de transmisi?n de datos, revisar formula -> SPBRG = 8M/(16*9600)-1
+    SPBRG = 12; //Valor para la vel de transmisi?n de datos, revisar formula -> SPBRG = 8M/(64*9600)-1
     //ConfigADC
-    ADCON0 = 0b00000001; // Se elige el canal ADC AN0, GO se mantiene apagado, ?ltimo bit enciende modulo ADC 
-    ADCON1 = 13; //Ref. baja = tierra, Ref. alta = Vdd, Solo pin RA0 como analogo
-    ADCON2 = 0b10001000; //Justificacion a derecha, adquisicion 2 (001), divisor del reloj 8 (001)
-    //adquisici?n TACQ = TAMP + TC +TCOFF
-    //                   0,2 us + 1,2 us + 0,85 us (TCOFF calculado)
-    //            TCOFF=25pf (1k+2k+2.5k)ln(1/2048)us) = 0,85
-    //            TACQ = 2,2 us 
+    ADCON0 = 0b00000001;
+    ADCON1 = 13;
+    ADCON2 = 0b10001000; //Justificacion a derecha, adquisicion instantanea
     //Fin config ADC
+    //CONFIGURACION DE PUERTOS I/O
+    TRISB = 0; //Colocar puerto B como salida
+    TRISD = 0; //Colocar puerto D como salida
+    TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
+    TRISC = 0b11010111; //Colocar Pines C0 y C1 como entrada (seleccion de temperatura) C2- SENSOR, C4-Selector cambio unidad envio datos RC6 como entrada TX, para lectura RC7 RX
+    RBPU = 0; //Activar resistencias pull up
+    
+    TempEEPROM = leerDatoEnEEPROM(0);
+    
+    InicializaLCD(); //Funcion para configuracion inicial del LCD
     
     //Timer0 interrupcion
     T0CON=0b00000011;//No habilita timer0, 16 bits de resolucion, reloj interno
@@ -61,23 +68,6 @@ void main(void) {
     GIE=1; //habilita interrupciones globales
     TMR0ON=1;//Habilita la interrupcion Timer0, primer bit de T0CON
     //Fin de configuracion para Timer0
-    
-    //CONFIGURACION DE PUERTOS I/O
-    TRISB = 0; //Colocar puerto B como salida
-    TRISD = 0; //Colocar puerto D como salida
-    TRISE0 = 0;
-    TRISE2 = 0;
-    TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
-    USBEN = 0;//habilita RC4 y RC5 desabilitando modulo USB
-    UTRDIS = 1;//Deshabilitar el transceptor USB
-    TRISC = 0b11110110; //Pin C0 salida LED  y C1 como entrada (seleccion entrada) C2- SENSOR, C4, C5-  seleccion unidad  RC6 como entrada TX, para lectura RC7 RX
-    RBPU = 0; //Activar resistencias pull up
-    DATA_OUT = 0;
-    TempEEPROM = leerDatoEnEEPROM(0);
-    
-    //ConfiguraLCD(4);
-    InicializaLCD(); //Funcion para configuracion inicial del LCD
-    
    
     BorraLCD(); //Limpiar el LCD
 
@@ -115,13 +105,14 @@ void main(void) {
         
         if(!RC4) TransmitirDatos(RC0, RC1);
         else TransmitirDatos(A, B);
+        
         Conversion(0);
-        RB0 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
+        RD3 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
     }
 }
 
 void LeerHT11(void) {
-        //Por defecto el pin de comunicaci?n est? en alto, para iniciar la comunicaci?n se debe poner la l?nea de datos en bajo durante 18ms
+    //Por defecto el pin de comunicaci?n est? en alto, para iniciar la comunicaci?n se debe poner la l?nea de datos en bajo durante 18ms
     DATA_DIR = 0; //Configura el pin como salida, por defecto su valor de salida es 0
     __delay_ms(18); //Se esperan los 18ms
     DATA_DIR = 1; //Se reestablece el pin a entrada digital
@@ -135,13 +126,12 @@ void LeerHT11(void) {
     Temp = LeerByte();
     LeerByte();
     LeerByte();
-    
 }
 
 unsigned char LeerByte(void) {
     unsigned char res = 0, i;
     for (i = 8; i > 0; i--) {
-        res = (res << 1) | LeerBit(); //Va moviendo los digitos del byte a la derecha y a?adiendo los valores le?dos
+        res = (res << 1) | LeerBit(); //Va moviendo los digitos del byte a la izquierta y a?adiendo los valores le?dos
     } //Comienza 00000000, lee 1, entonces 0000001, lee 0, entonces 00000010, lee 1, entonces 00000101, hasta llenar el byte
     return res;
 }
@@ -158,7 +148,6 @@ unsigned char LeerBit(void) {
     }
     return res;
 }
-
 
 void Transmitir(unsigned char BufferT) {
     while (TRMT == 0);
@@ -222,13 +211,7 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
     Transmitir('%');
     Transmitir('\n');
     Transmitir(' ');
-    
-        
-
-
     //Transmision LCD
-
-
     EscribeLCD_c(TempC / 10 + 48);
     EscribeLCD_c(TempC % 10 + 48);
     EscribeLCD_c(Simb);
@@ -242,37 +225,37 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
 
 void ColorRGB(unsigned int val) {
     if (val < 22) {
-        RB7 = 0;
-        RB6 = 0;
-        RB5 = 0;
+        RD0 = 0;
+        RD1 = 0;
+        RD2 = 0;
     } else if (val >= 22 && val < 25) {
-        RB7 = 1;
-        RB6 = 0;
-        RB5 = 1;
+        RD0 = 1;
+        RD1 = 0;
+        RD2 = 1;
     } else if (val >= 25 && val < 28) {
-        RB7 = 0;
-        RB6 = 0;
-        RB5 = 1;
+        RD0 = 0;
+        RD1 = 0;
+        RD2 = 1;
     } else if (val >= 28 && val < 31) {
-        RB7 = 0;
-        RB6 = 1;
-        RB5 = 1;
+        RD0 = 0;
+        RD1 = 1;
+        RD2 = 1;
     } else if (val >= 31 && val < 34) {
-        RB7 = 0;
-        RB6 = 1;
-        RB5 = 0;
+        RD0 = 0;
+        RD1 = 1;
+        RD2 = 0;
     } else if (val >= 34 && val < 37) {
-        RB7 = 1;
-        RB6 = 1;
-        RB5 = 0;
+        RD0 = 1;
+        RD1 = 1;
+        RD2 = 0;
     } else if (val >= 37 && val < 40) {
-        RB7 = 1;
-        RB6 = 0;
-        RB5 = 0;
+        RD0 = 1;
+        RD1 = 0;
+        RD2 = 0;
     } else if (val >= 40) {
-        RB7 = 1;
-        RB6 = 1;
-        RB5 = 1;
+        RD0 = 1;
+        RD1 = 1;
+        RD2 = 1;
     }
 }
 
@@ -316,7 +299,7 @@ unsigned char leerDatoEnEEPROM(unsigned int dir) {
 void __interrupt() ISR(void){
     if(TMR0IF){
         TMR0IF=0;
-        RC0 = !RC0;
+        RD4 = !RD4;
         TMR0 = 3036;//Precarga 2^n - Tsobreflujo*Fbus_Timer0/PreScaler
         //Tuvo que usarse una resolucion de 16 bits y un PS de  para lograr el valor deseado
     }
