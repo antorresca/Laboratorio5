@@ -37,16 +37,16 @@ void main(void) {
     //CONFIGURACION PARA EL RS232
     OSCCON = 0b01110000; //Establece el reloj interno en 8Mhz
     __delay_ms(1);
-    
+    DATA_OUT = 0;
     TXSTA = 0b00100100; //Configuraci?n del transmisor, habilitaci?n del transmisor y modo asincr?nico, alta velocidades
     RCSTA = 0b10010000; //Configuraci?n del receptor, habilitaci?n del modulo EUSART, se habilita el receptor
     BAUDCON = 0b00000000; //Configuracion del modulo adc, no inversion logica, divisor de frecuencia 8bits, modo bajo consumo desactivado,
     //autodeteccion de velocidad off.
-    SPBRG = 51; //Valor para la vel de transmisi?n de datos, revisar formula -> SPBRG = 8M/(16*9600)-1
+    SPBRG = 12; //Valor para la vel de transmisi?n de datos, revisar formula -> SPBRG = 8M/(16*9600)-1
     //ConfigADC
     ADCON0 = 0b00000001; // Se elige el canal ADC AN0, GO se mantiene apagado, ?ltimo bit enciende modulo ADC 
-    ADCON1 = 0b00001110; //Ref. baja = tierra, Ref. alta = Vdd, Solo pin RA0 como analogo
-    ADCON2 = 0b10001001; //Justificacion a derecha, adquisicion 2 (001), divisor del reloj 8 (001)
+    ADCON1 = 13; //Ref. baja = tierra, Ref. alta = Vdd, Solo pin RA0 como analogo
+    ADCON2 = 0b10001000; //Justificacion a derecha, adquisicion 2 (001), divisor del reloj 8 (001)
     //adquisici?n TACQ = TAMP + TC +TCOFF
     //                   0,2 us + 1,2 us + 0,85 us (TCOFF calculado)
     //            TCOFF=25pf (1k+2k+2.5k)ln(1/2048)us) = 0,85
@@ -65,6 +65,8 @@ void main(void) {
     //CONFIGURACION DE PUERTOS I/O
     TRISB = 0; //Colocar puerto B como salida
     TRISD = 0; //Colocar puerto D como salida
+    TRISE0 = 0;
+    TRISE2 = 0;
     TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
     USBEN = 0;//habilita RC4 y RC5 desabilitando modulo USB
     UTRDIS = 1;//Deshabilitar el transceptor USB
@@ -111,7 +113,7 @@ void main(void) {
         ColorRGB(Temp); 
         
         
-        if(!RC1) TransmitirDatos(RC4, RC5);
+        if(!RC4) TransmitirDatos(RC0, RC1);
         else TransmitirDatos(A, B);
         Conversion(0);
         RB0 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
@@ -128,14 +130,12 @@ void LeerHT11(void) {
     __delay_us(120); //Pulso bajo, respuesta del sensor 80us, posteriormente pulso en alto de una duraci?n similar.
     while (DATA_IN == 1); //Tiempo en alto que dura hasta que el sensor toma control del canal de comunicaci?n
     //Recepci?n de datos
-    /*Hum = LeerByte();
+    Hum = LeerByte();
     LeerByte();
     Temp = LeerByte();
     LeerByte();
-    LeerByte();*/
-    Hum = 0;
-    Temp = 42;
-    Che = 0;
+    LeerByte();
+    
 }
 
 unsigned char LeerByte(void) {
