@@ -53,7 +53,8 @@ void main(void) {
     //CONFIGURACION DE PUERTOS I/O
     TRISB = 0; //Colocar puerto B como salida
     TRISD = 0; //Colocar puerto D como salida
-    TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
+    TRISA = 0b00000001; //Colocar pines A0 como entrada digital para ADC
+    TRISE=0; //Habilitar puerto E como salida para control de LCD
     USBEN = 0;//habilita RC4 y RC5 desabilitando modulo USB
     UTRDIS = 1;//Deshabilitar el transceptor USB
     TRISC = 0b11110110; //Pin C0 salida LED  y C1 como entrada (seleccion entrada) C2- SENSOR, C4, C5-  seleccion unidad  RC6 como entrada TX, para lectura RC7 RX
@@ -61,7 +62,7 @@ void main(void) {
     DATA_OUT = 0;
     TempEEPROM = leerDatoEnEEPROM(0);
     
-    ConfiguraLCD(4);
+    //ConfiguraLCD(4);
     InicializaLCD(); //Funcion para configuracion inicial del LCD
     
     //Timer0 interrupcion
@@ -242,38 +243,38 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
 }
 
 void ColorRGB(unsigned int val) {
-    if (val < 22) {
-        RB7 = 0;
-        RB6 = 0;
-        RB5 = 0;
+    if (val < 22) { //Cambia a LATB = 0b00000000
+        LATB7 = 0;
+        LATB6 = 0;
+        LATB5 = 0;
     } else if (val >= 22 && val < 25) {
-        RB7 = 1;
-        RB6 = 0;
-        RB5 = 1;
+        LATB7 = 1;
+        LATB6 = 0;
+        LATB5 = 1;
     } else if (val >= 25 && val < 28) {
-        RB7 = 0;
-        RB6 = 0;
-        RB5 = 1;
+        LATB7 = 0;
+        LATB6 = 0;
+        LATB5 = 1;
     } else if (val >= 28 && val < 31) {
-        RB7 = 0;
-        RB6 = 1;
-        RB5 = 1;
+        LATB7 = 0;
+        LATB6 = 1;
+        LATB5 = 1;
     } else if (val >= 31 && val < 34) {
-        RB7 = 0;
-        RB6 = 1;
-        RB5 = 0;
+        LATB7 = 0;
+        LATB6 = 1;
+        LATB5 = 0;
     } else if (val >= 34 && val < 37) {
-        RB7 = 1;
-        RB6 = 1;
-        RB5 = 0;
+        LATB7 = 1;
+        LATB6 = 1;
+        LATB5 = 0;
     } else if (val >= 37 && val < 40) {
-        RB7 = 1;
-        RB6 = 0;
-        RB5 = 0;
+        LATB7 = 1;
+        LATB6 = 0;
+        LATB5 = 0;
     } else if (val >= 40) {
-        RB7 = 1;
-        RB6 = 1;
-        RB5 = 1;
+        LATB7 = 1;
+        LATB6 = 1;
+        LATB5 = 1;
     }
 }
 
