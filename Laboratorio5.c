@@ -15,7 +15,7 @@
 unsigned char Temp, Hum, Che;
 unsigned char TempEEPROM;
 unsigned char TempEEPROM;//Para el bonus
-unsigned int IniFlag = 0;
+unsigned int A=0,B= 0;//valor de entrada para seleccionar unidades de temperatura
 
 
 
@@ -39,7 +39,7 @@ void main(void) {
     //CONFIGURACION PARA EL RS232
     OSCCON = 0b01110000; //Establece el reloj interno en 8Mhz
     __delay_ms(1);
-    DATA_OUT = 0;
+    
     TXSTA = 0b00100000; //Configuración del transmisor, habilitación del transmisor y modo asincrónico, bajas velocidades
     RCSTA = 0b10010000; //Configuración del receptor, habilitación del modulo EUSART, se habilita el receptor
     BAUDCON = 0b00000000; //Configuracion del modulo adc, no inversion logica, divisor de frecuencia 8bits, modo bajo consumo desactivado,
@@ -50,20 +50,22 @@ void main(void) {
     ADCON1 = 13;
     ADCON2 = 0b10001000; //Justificacion a derecha, adquisicion instantanea
     //Fin config ADC
-    //
     //CONFIGURACION DE PUERTOS I/O
     TRISB = 0; //Colocar puerto B como salida
-    TRISD = 0;//Colocar puerto D como salida
+    TRISD = 0; //Colocar puerto D como salida
     TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
-    TRISC = 0b11000111; //Colocar Pines C0 y C1 como entrada (seleccion de temperatura) C2 entrada Para la lectura de datos RC6 como entrada para activar TX, para escritura RC7
+    USBEN = 0;//habilita RC4 y RC5 desabilitando modulo USB
+    UTRDIS = 1;//Deshabilitar el transceptor USB
+    TRISC = 0b11110110; //Pin C0 salida LED  y C1 como entrada (seleccion entrada) C2- SENSOR, C4, C5-  seleccion unidad  RC6 como entrada TX, para lectura RC7 RX
     RBPU = 0; //Activar resistencias pull up
-    
+    DATA_OUT = 0;
     TempEEPROM = leerDatoEnEEPROM(0);
     
-    InicializaLCD(); //Funcion para configuracion inicial del LCD
     ConfiguraLCD(4);
+    InicializaLCD(); //Funcion para configuracion inicial del LCD
+    
     //Timer0 interrupcion
-    T0CON=0b10000011;//Habilita timer0, 16 bits de resolucion, reloj interno
+    T0CON=0b10000011;//No habilita timer0, 16 bits de resolucion, reloj interno
     TMR0IF=0;// apaga bandera
     TMR0=3036; // valor pre carga
     TMR0IE=1; //Habilita la interrupcion 
@@ -100,32 +102,27 @@ void main(void) {
         __delay_ms(500);
         //LATD0=0;
         LeerHT11();
-        IniFlag = 1;
+        //IniFlag = 1;
         GuardarDatoEnEEPROM(0, Temp);
-        ColorRGB(Temp); //Importante asignar primero el color porque la transmision modifica Temp y Hum
+        ColorRGB(Temp); 
         
         
-        TransmitirDatos(RC0, RC1);
-        
+        if(!RC1) TransmitirDatos(RC4, RC5);
+        else TransmitirDatos(A, B);
         Conversion(0);
-        RD3 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
+        RB0 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
     }
 }
 
 void LeerHT11(void) {
-    unsigned char i, contr = 0;
-    //Se le dan dos pulsos al sensor para que haga la medición
-    DATA_DIR = 0;
-    __delay_ms(18);
-    //Pulso 1
-    DATA_DIR = 1;
-    while (DATA_IN == 1);
-    __delay_us(40);
-    if (DATA_IN == 0) contr++;
-    __delay_us(80);
-    //Pulso 2 
-    if (DATA_IN == 1) contr++;
-    while (DATA_IN == 1); //Termina cuando el sensor toma control de la línea
+    //Por defecto el pin de comunicación está en alto, para iniciar la comunicación se debe poner la línea de datos en bajo durante 18ms
+    DATA_DIR = 0; //Configura el pin como salida, por defecto su valor de salida es 0
+    __delay_ms(18); //Se esperan los 18ms
+    DATA_DIR = 1; //Se reestablece el pin a entrada digital
+    //Ahora se espera la respuesta del sensor
+    while (DATA_IN == 1); //Tiempo en alto mientras el sensor responde
+    __delay_us(120); //Pulso bajo, respuesta del sensor 80us, posteriormente pulso en alto de una duración similar.
+    while (DATA_IN == 1); //Tiempo en alto que dura hasta que el sensor toma control del canal de comunicación
     //Recepción de datos
     Hum = LeerByte();
     LeerByte();
@@ -133,6 +130,8 @@ void LeerHT11(void) {
     LeerByte();
     Che = LeerByte();
 }
+
+
 
 unsigned char LeerByte(void) {
     unsigned char res = 0, i;
@@ -224,6 +223,8 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
     Transmitir('%');
     Transmitir('\n');
     Transmitir(' ');
+    
+        
 
 
     //Transmision LCD
@@ -242,37 +243,37 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
 
 void ColorRGB(unsigned int val) {
     if (val < 22) {
-        RD0 = 0;
-        RD1 = 0;
-        RD2 = 0;
+        RB7 = 0;
+        RB6 = 0;
+        RB5 = 0;
     } else if (val >= 22 && val < 25) {
-        RD0 = 1;
-        RD1 = 0;
-        RD2 = 1;
+        RB7 = 1;
+        RB6 = 0;
+        RB5 = 1;
     } else if (val >= 25 && val < 28) {
-        RD0 = 0;
-        RD1 = 0;
-        RD2 = 1;
+        RB7 = 0;
+        RB6 = 0;
+        RB5 = 1;
     } else if (val >= 28 && val < 31) {
-        RD0 = 0;
-        RD1 = 1;
-        RD2 = 1;
+        RB7 = 0;
+        RB6 = 1;
+        RB5 = 1;
     } else if (val >= 31 && val < 34) {
-        RD0 = 0;
-        RD1 = 1;
-        RD2 = 0;
+        RB7 = 0;
+        RB6 = 1;
+        RB5 = 0;
     } else if (val >= 34 && val < 37) {
-        RD0 = 1;
-        RD1 = 1;
-        RD2 = 0;
+        RB7 = 1;
+        RB6 = 1;
+        RB5 = 0;
     } else if (val >= 37 && val < 40) {
-        RD0 = 1;
-        RD1 = 0;
-        RD2 = 0;
+        RB7 = 1;
+        RB6 = 0;
+        RB5 = 0;
     } else if (val >= 40) {
-        RD0 = 1;
-        RD1 = 1;
-        RD2 = 1;
+        RB7 = 1;
+        RB6 = 1;
+        RB5 = 1;
     }
 }
 
@@ -314,31 +315,34 @@ unsigned char leerDatoEnEEPROM(unsigned int dir) {
 
 
 void __interrupt() ISR(void){
-    if(TMR0IF==1){
+    if(TMR0IF){
         TMR0IF=0;
-        RD4 = !RD4;
+        RC0 = !RC0;
         TMR0 = 3036;//Precarga 2^n - Tsobreflujo*Fbus_Timer0/PreScaler
         //Tuvo que usarse una resolucion de 16 bits y un PS de  para lograr el valor deseado
     }
-    if(RCIF && IniFlag == 1){
+    if(RCIF){
         switch (Recibir()){
                 case 'C':
-                    TransmitirDatos(0, 0);
+                    A=0;
+                    B=0;
                     break;
                 case 'K':
-                    TransmitirDatos(0, 1);
+                    A=0;
+                    B=1;
                     break;
                 case 'R':
-                    TransmitirDatos(1, 0);
+                    A=1;
+                    B=0;
                     break;
                 case 'F':
-                    TransmitirDatos(1, 1);
+                    A=1;
+                    B=1;
                     break;
                 default:
                     break;
         }
-       
-        __delay_ms(1000);
+        __delay_ms(100);
         
     }
             
