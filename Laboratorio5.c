@@ -12,8 +12,7 @@
 #define DATA_IN RC2
 #define DATA_OUT LATC2
 
-unsigned char Temp, Hum, Che;
-unsigned char TempEEPROM;
+unsigned char Temp, Hum;
 unsigned char TempEEPROM;//Para el bonus
 unsigned int A=0,B= 0;//valor de entrada para seleccionar unidades de temperatura
 
@@ -23,7 +22,6 @@ unsigned int A=0,B= 0;//valor de entrada para seleccionar unidades de temperatur
 void LeerHT11(void);
 unsigned char LeerByte(void);
 unsigned char LeerBit(void);
-unsigned char Check();
 void Transmitir(unsigned char);
 unsigned char Recibir(void);
 void TransmitirDatos(unsigned int Ent1, unsigned int Ent2);
@@ -40,21 +38,34 @@ void main(void) {
     OSCCON = 0b01110000; //Establece el reloj interno en 8Mhz
     __delay_ms(1);
     
-    TXSTA = 0b00100000; //Configuración del transmisor, habilitación del transmisor y modo asincrónico, bajas velocidades
-    RCSTA = 0b10010000; //Configuración del receptor, habilitación del modulo EUSART, se habilita el receptor
+    TXSTA = 0b00100100; //Configuraci?n del transmisor, habilitaci?n del transmisor y modo asincr?nico, alta velocidades
+    RCSTA = 0b10010000; //Configuraci?n del receptor, habilitaci?n del modulo EUSART, se habilita el receptor
     BAUDCON = 0b00000000; //Configuracion del modulo adc, no inversion logica, divisor de frecuencia 8bits, modo bajo consumo desactivado,
     //autodeteccion de velocidad off.
-    SPBRG = 12; //Valor para la vel de transmisión de datos, revisar formula -> SPBRG = 8M/(64*9600)-1
+    SPBRG = 51; //Valor para la vel de transmisi?n de datos, revisar formula -> SPBRG = 8M/(16*9600)-1
     //ConfigADC
-    ADCON0 = 0b00000001;
-    ADCON1 = 13;
-    ADCON2 = 0b10001000; //Justificacion a derecha, adquisicion instantanea
+    ADCON0 = 0b00000001; // Se elige el canal ADC AN0, GO se mantiene apagado, ?ltimo bit enciende modulo ADC 
+    ADCON1 = 0b00001110; //Ref. baja = tierra, Ref. alta = Vdd, Solo pin RA0 como analogo
+    ADCON2 = 0b10001001; //Justificacion a derecha, adquisicion 2 (001), divisor del reloj 8 (001)
+    //adquisici?n TACQ = TAMP + TC +TCOFF
+    //                   0,2 us + 1,2 us + 0,85 us (TCOFF calculado)
+    //            TCOFF=25pf (1k+2k+2.5k)ln(1/2048)us) = 0,85
+    //            TACQ = 2,2 us 
     //Fin config ADC
+    
+    //Timer0 interrupcion
+    T0CON=0b00000011;//No habilita timer0, 16 bits de resolucion, reloj interno
+    TMR0IF=0;// apaga bandera
+    TMR0=3036; // valor pre carga
+    TMR0IE=1; //Habilita la interrupcion 
+    GIE=1; //habilita interrupciones globales
+    TMR0ON=1;//Habilita la interrupcion Timer0, primer bit de T0CON
+    //Fin de configuracion para Timer0
+    
     //CONFIGURACION DE PUERTOS I/O
     TRISB = 0; //Colocar puerto B como salida
     TRISD = 0; //Colocar puerto D como salida
-    TRISA = 0b00000001; //Colocar pines A0 como entrada digital para ADC
-    TRISE=0; //Habilitar puerto E como salida para control de LCD
+    TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
     USBEN = 0;//habilita RC4 y RC5 desabilitando modulo USB
     UTRDIS = 1;//Deshabilitar el transceptor USB
     TRISC = 0b11110110; //Pin C0 salida LED  y C1 como entrada (seleccion entrada) C2- SENSOR, C4, C5-  seleccion unidad  RC6 como entrada TX, para lectura RC7 RX
@@ -65,14 +76,6 @@ void main(void) {
     //ConfiguraLCD(4);
     InicializaLCD(); //Funcion para configuracion inicial del LCD
     
-    //Timer0 interrupcion
-    T0CON=0b10000011;//No habilita timer0, 16 bits de resolucion, reloj interno
-    TMR0IF=0;// apaga bandera
-    TMR0=3036; // valor pre carga
-    TMR0IE=1; //Habilita la interrupcion 
-    GIE=1; //habilita interrupciones globales
-    TMR0ON=1;//Habilita la interrupcion Timer0, primer bit de T0CON
-    //Fin de configuracion para Timer0
    
     BorraLCD(); //Limpiar el LCD
 
@@ -116,28 +119,29 @@ void main(void) {
 }
 
 void LeerHT11(void) {
-    //Por defecto el pin de comunicación está en alto, para iniciar la comunicación se debe poner la línea de datos en bajo durante 18ms
+        //Por defecto el pin de comunicaci?n est? en alto, para iniciar la comunicaci?n se debe poner la l?nea de datos en bajo durante 18ms
     DATA_DIR = 0; //Configura el pin como salida, por defecto su valor de salida es 0
     __delay_ms(18); //Se esperan los 18ms
     DATA_DIR = 1; //Se reestablece el pin a entrada digital
     //Ahora se espera la respuesta del sensor
     while (DATA_IN == 1); //Tiempo en alto mientras el sensor responde
-    __delay_us(120); //Pulso bajo, respuesta del sensor 80us, posteriormente pulso en alto de una duración similar.
-    while (DATA_IN == 1); //Tiempo en alto que dura hasta que el sensor toma control del canal de comunicación
-    //Recepción de datos
-    Hum = LeerByte();
+    __delay_us(120); //Pulso bajo, respuesta del sensor 80us, posteriormente pulso en alto de una duraci?n similar.
+    while (DATA_IN == 1); //Tiempo en alto que dura hasta que el sensor toma control del canal de comunicaci?n
+    //Recepci?n de datos
+    /*Hum = LeerByte();
     LeerByte();
     Temp = LeerByte();
     LeerByte();
-    Che = LeerByte();
+    LeerByte();*/
+    Hum = 0;
+    Temp = 42;
+    Che = 0;
 }
-
-
 
 unsigned char LeerByte(void) {
     unsigned char res = 0, i;
     for (i = 8; i > 0; i--) {
-        res = (res << 1) | LeerBit(); //Va moviendo los digitos del byte a la derecha y añadiendo los valores leídos
+        res = (res << 1) | LeerBit(); //Va moviendo los digitos del byte a la derecha y a?adiendo los valores le?dos
     } //Comienza 00000000, lee 1, entonces 0000001, lee 0, entonces 00000010, lee 1, entonces 00000101, hasta llenar el byte
     return res;
 }
@@ -155,12 +159,6 @@ unsigned char LeerBit(void) {
     return res;
 }
 
-unsigned char Check(void) {
-    unsigned char res = 0, aux;
-    aux = Temp + Hum;
-    if (aux == Che) res = 1;
-    return res;
-}
 
 void Transmitir(unsigned char BufferT) {
     while (TRMT == 0);
@@ -243,38 +241,38 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
 }
 
 void ColorRGB(unsigned int val) {
-    if (val < 22) { //Cambia a LATB = 0b00000000
-        LATB7 = 0;
-        LATB6 = 0;
-        LATB5 = 0;
+    if (val < 22) {
+        RB7 = 0;
+        RB6 = 0;
+        RB5 = 0;
     } else if (val >= 22 && val < 25) {
-        LATB7 = 1;
-        LATB6 = 0;
-        LATB5 = 1;
+        RB7 = 1;
+        RB6 = 0;
+        RB5 = 1;
     } else if (val >= 25 && val < 28) {
-        LATB7 = 0;
-        LATB6 = 0;
-        LATB5 = 1;
+        RB7 = 0;
+        RB6 = 0;
+        RB5 = 1;
     } else if (val >= 28 && val < 31) {
-        LATB7 = 0;
-        LATB6 = 1;
-        LATB5 = 1;
+        RB7 = 0;
+        RB6 = 1;
+        RB5 = 1;
     } else if (val >= 31 && val < 34) {
-        LATB7 = 0;
-        LATB6 = 1;
-        LATB5 = 0;
+        RB7 = 0;
+        RB6 = 1;
+        RB5 = 0;
     } else if (val >= 34 && val < 37) {
-        LATB7 = 1;
-        LATB6 = 1;
-        LATB5 = 0;
+        RB7 = 1;
+        RB6 = 1;
+        RB5 = 0;
     } else if (val >= 37 && val < 40) {
-        LATB7 = 1;
-        LATB6 = 0;
-        LATB5 = 0;
+        RB7 = 1;
+        RB6 = 0;
+        RB5 = 0;
     } else if (val >= 40) {
-        LATB7 = 1;
-        LATB6 = 1;
-        LATB5 = 1;
+        RB7 = 1;
+        RB6 = 1;
+        RB5 = 1;
     }
 }
 
@@ -348,3 +346,4 @@ void __interrupt() ISR(void){
     }
             
 }
+ 
