@@ -13,7 +13,6 @@
 #define DATA_OUT LATC2
 
 unsigned char Temp, Hum;
-unsigned char TempEEPROM;
 unsigned char TempEEPROM;//Para el bonus
 unsigned int A=0,B= 0;//valor de entrada para seleccionar unidades de temperatura
 
@@ -36,13 +35,14 @@ unsigned char leerDatoEnEEPROM(unsigned int dir);
 void main(void) {
 
     //CONFIGURACION PARA EL RS232
-    OSCCON = 0b01110000; //Establece el reloj interno en 8Mhz
+    OSCCON = 0b01110110; //Establece el reloj interno en 8Mhz
     __delay_ms(1);
     DATA_OUT = 0;
     TXSTA = 0b00100000; //Configuraci?n del transmisor, habilitaci?n del transmisor y modo asincr?nico, bajas velocidades
     RCSTA = 0b10010000; //Configuraci?n del receptor, habilitaci?n del modulo EUSART, se habilita el receptor
     BAUDCON = 0b00000000; //Configuracion del modulo adc, no inversion logica, divisor de frecuencia 8bits, modo bajo consumo desactivado,
     //autodeteccion de velocidad off.
+    TRISE=0;
     SPBRG = 12; //Valor para la vel de transmisi?n de datos, revisar formula -> SPBRG = 8M/(64*9600)-1
     //ConfigADC
     ADCON0 = 0b00000001;
@@ -54,12 +54,13 @@ void main(void) {
     TRISD = 0; //Colocar puerto D como salida
     TRISA = 0b00000001; //Colocar pines A00 como entrada digital para ADC
     TRISC = 0b11010111; //Colocar Pines C0 y C1 como entrada (seleccion de temperatura) C2- SENSOR, C4-Selector cambio unidad envio datos RC6 como entrada TX, para lectura RC7 RX
-    RBPU = 0; //Activar resistencias pull up
+    USBEN = 0;//habilita RC4 y RC5 desabilitando modulo USB
+    UTRDIS = 1;
+    //RBPU = 0; //Activar resistencias pull up
     
     TempEEPROM = leerDatoEnEEPROM(0);
     
     InicializaLCD(); //Funcion para configuracion inicial del LCD
-    
     //Timer0 interrupcion
     T0CON=0b00000011;//No habilita timer0, 16 bits de resolucion, reloj interno
     TMR0IF=0;// apaga bandera
@@ -68,7 +69,6 @@ void main(void) {
     GIE=1; //habilita interrupciones globales
     TMR0ON=1;//Habilita la interrupcion Timer0, primer bit de T0CON
     //Fin de configuracion para Timer0
-   
     BorraLCD(); //Limpiar el LCD
 
     if (TempEEPROM != 0xFF) {
@@ -83,14 +83,14 @@ void main(void) {
     
     MensajeLCD_Word("Iniciando"); //Escribir mensaje de bienvenida
     __delay_ms(500); //Retraso para evitar errores
-    EscribeLCD_c(46);
+    EscribeLCD_c('.');
     __delay_ms(500);
-    EscribeLCD_c(46);
+    EscribeLCD_c('.');
     __delay_ms(500);
-    EscribeLCD_c(46);
+    EscribeLCD_c('.');
     __delay_ms(500);
     BorraLCD();
-    
+    __delay_ms(500);
     
     while (1) {
         __delay_ms(500);
@@ -225,37 +225,37 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
 
 void ColorRGB(unsigned int val) {
     if (val < 22) {
-        RD0 = 0;
-        RD1 = 0;
-        RD2 = 0;
+        RB0 = 0;
+        RB1 = 0;
+        RB2 = 0;
     } else if (val >= 22 && val < 25) {
-        RD0 = 1;
-        RD1 = 0;
-        RD2 = 1;
+        RB0 = 1;
+        RB1 = 0;
+        RB2 = 1;
     } else if (val >= 25 && val < 28) {
-        RD0 = 0;
-        RD1 = 0;
-        RD2 = 1;
+        RB0 = 0;
+        RB1 = 0;
+        RB2 = 1;
     } else if (val >= 28 && val < 31) {
-        RD0 = 0;
-        RD1 = 1;
-        RD2 = 1;
+        RB0 = 0;
+        RB1 = 1;
+        RB2 = 1;
     } else if (val >= 31 && val < 34) {
-        RD0 = 0;
-        RD1 = 1;
-        RD2 = 0;
+        RB0 = 0;
+        RB1 = 1;
+        RB2 = 0;
     } else if (val >= 34 && val < 37) {
-        RD0 = 1;
-        RD1 = 1;
-        RD2 = 0;
+        RB0 = 1;
+        RB1 = 1;
+        RB2 = 0;
     } else if (val >= 37 && val < 40) {
-        RD0 = 1;
-        RD1 = 0;
-        RD2 = 0;
+        RB0 = 1;
+        RB1 = 0;
+        RB2 = 0;
     } else if (val >= 40) {
-        RD0 = 1;
-        RD1 = 1;
-        RD2 = 1;
+        RB0 = 1;
+        RB1 = 1;
+        RB2 = 1;
     }
 }
 
@@ -295,11 +295,10 @@ unsigned char leerDatoEnEEPROM(unsigned int dir) {
     return EEDATA;
 }
 
-
 void __interrupt() ISR(void){
     if(TMR0IF){
         TMR0IF=0;
-        RD4 = !RD4;
+        RE0 = !RE0;
         TMR0 = 3036;//Precarga 2^n - Tsobreflujo*Fbus_Timer0/PreScaler
         //Tuvo que usarse una resolucion de 16 bits y un PS de  para lograr el valor deseado
     }
@@ -324,9 +323,7 @@ void __interrupt() ISR(void){
                 default:
                     break;
         }
-        __delay_ms(100);
-        
-    }
-            
+        __delay_ms(100); 
+    }            
 }
  

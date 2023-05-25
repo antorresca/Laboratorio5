@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/production\Laboratorio5.production.hex">
+  <executable name="dist/default/production\Laboratorio5.X.production.hex">
     <memory name="program">
       <units>bytes</units>
       <length>32768</length>
-      <used>2593</used>
-      <free>30175</free>
+      <used>2621</used>
+      <free>30147</free>
     </memory>
     <memory name="data">
       <units>bytes</units>

@@ -24,13 +24,13 @@ extern "C" {
 #define _XTAL_FREQ 20000000
 #endif
 #ifndef Datos
-#define Datos LATB	//El puerto de conexi?n de los datos el cual se puede cambiar
+#define Datos LATD	//El puerto de conexi?n de los datos el cual se puede cambiar
 #endif
 #ifndef RS
-#define RS LATD6	//Los pines de control al LCD los cuales se
+#define RS LATE1	//Los pines de control al LCD los cuales se
 #endif
 #ifndef E
-#define E LATD7	//pueden cambiar
+#define E LATE2	//pueden cambiar
 #endif
 
 unsigned char interfaz=8;
