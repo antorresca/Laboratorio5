@@ -82,8 +82,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _RC1 `Vb ~T20 @X0 0 e@31761 ]
 "24 Laboratorio5.c
 [v _ConvertirUnidades `(ui ~T0 @X0 0 ef1`uc ]
-"10472 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
-[v _RD3 `Vb ~T20 @X0 0 e@31771 ]
+"10364 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
+[v _RB0 `Vb ~T20 @X0 0 e@31752 ]
 "6786
 [v _ADRES `Vus ~T0 @X0 0 e@4035 ]
 "10937
@@ -4280,9 +4280,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;Laboratorio5.c: 91: ConvertirUnidades(0);
 "91
 [e ( _ConvertirUnidades (1 -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 92: RD3 = (ADRES <= 511) ? 0 : 1;
+[; ;Laboratorio5.c: 92: RB0 = (ADRES <= 511) ? 0 : 1;
 "92
-[e = _RD3 -> ? <= -> _ADRES `ui -> -> 511 `i `ui : -> 0 `i -> 1 `i `b ]
+[e = _RB0 -> ? <= -> _ADRES `ui -> -> 511 `i `ui : -> 0 `i -> 1 `i `b ]
 "93
 }
 [e :U 396 ]

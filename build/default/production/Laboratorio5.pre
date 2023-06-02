@@ -5983,7 +5983,7 @@ if(!RC4) TransmitirDatos(RC0, RC1);
 else TransmitirDatos(A, B);
 
 ConvertirUnidades(0);
-RD3 = (ADRES <= 511) ? 0 : 1;
+RB0 = (ADRES <= 511) ? 0 : 1;
 }
 }
 

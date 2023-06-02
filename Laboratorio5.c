@@ -89,7 +89,7 @@ void main(void) {
         else TransmitirDatos(A, B);
         
         ConvertirUnidades(0);
-        RD3 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
+        RB0 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
     }
 }
 

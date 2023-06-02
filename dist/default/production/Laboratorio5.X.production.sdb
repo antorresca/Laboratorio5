@@ -141,6 +141,8 @@
 [v _LATE1 LATE1 `VEb  1 e 0 @31849 ]
 "10022
 [v _LATE2 LATE2 `VEb  1 e 0 @31850 ]
+"10364
+[v _RB0 RB0 `VEb  1 e 0 @31752 ]
 "10400
 [v _RC0 RC0 `VEb  1 e 0 @31760 ]
 "10403
@@ -153,8 +155,6 @@
 [v _RCIF RCIF `VEb  1 e 0 @31989 ]
 "10457
 [v _RD RD `VEb  1 e 0 @32048 ]
-"10472
-[v _RD3 RD3 `VEb  1 e 0 @31771 ]
 "10496
 [v _RE0 RE0 `VEb  1 e 0 @31776 ]
 "10817

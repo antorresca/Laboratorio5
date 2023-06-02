@@ -7,11 +7,11 @@ ___lwdiv@counter 9 0 COMRAM 1
 _RD 7D30 0 ABS 0
 _GO 7E11 0 ABS 0
 _WR 7D31 0 ABS 0
+_RB0 7C08 0 ABS 0
 _RC0 7C10 0 ABS 0
 _RC1 7C11 0 ABS 0
 _RE0 7C20 0 ABS 0
 _RC2 7C12 0 ABS 0
-_RD3 7C1B 0 ABS 0
 _RC4 7C14 0 ABS 0
 __S0 11A9 0 ABS 0
 __S1 22 0 ABS 0
@@ -415,7 +415,7 @@ text1 824 11A8 CODE 824 0
 %locals
 dist/default/production\Laboratorio5.X.production.obj
 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
-C:\Users\Andres\AppData\Local\Temp\xcAsblc.as
+C:\Users\Andres\AppData\Local\Temp\xcAslio.as
 665 1030 0 CODE 0
 667 1030 0 CODE 0
 670 1030 0 CODE 0
@@ -804,8 +804,8 @@ Laboratorio5.c
 221 CDE 0 CODE 0
 223 CF6 0 CODE 0
 224 D02 0 CODE 0
-C:\Users\Andres\AppData\Local\Temp\xcAsblc.as
-5012 8 0 CODE 0
+C:\Users\Andres\AppData\Local\Temp\xcAslio.as
+5013 8 0 CODE 0
 Laboratorio5.c
 264 8 0 CODE 0
 Laboratorio5.c
