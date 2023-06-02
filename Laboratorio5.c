@@ -8,15 +8,10 @@
 #pragma LVP=OFF
 
 #define _XTAL_FREQ 8000000 //Frecuencia de reloj
-#define DATA_DIR TRISC2
-#define DATA_IN RC2
-#define DATA_OUT LATC2
 
-unsigned char Temp, Hum;
-unsigned char TempEEPROM;//Para el bonus
+unsigned char Temp, Humedad;
+unsigned char TemperaturaGuardada;//Para el bonus
 unsigned int A=0,B= 0;//valor de entrada para seleccionar unidades de temperatura
-
-
 
 //Prototipos de las funciones
 void LeerHT11(void);
@@ -26,18 +21,15 @@ void Transmitir(unsigned char);
 unsigned char Recibir(void);
 void TransmitirDatos(unsigned int Ent1, unsigned int Ent2);
 void ColorRGB(unsigned int val);
-unsigned int Conversion(unsigned char);
-void GuardarDatoEnEEPROM(unsigned int dir, unsigned char Dato);
-unsigned char leerDatoEnEEPROM(unsigned int dir);
-
-//void LedPot(void);
+unsigned int ConvertirUnidades(unsigned char);
+void GuardarDatos(unsigned int dir, unsigned char Dato);
+unsigned char LeerDatos(unsigned int dir);
 
 void main(void) {
-
     //CONFIGURACION PARA EL RS232
     OSCCON = 0b01110110; //Establece el reloj interno en 8Mhz
     __delay_ms(1);
-    DATA_OUT = 0;
+    LATC2 = 0;
     TXSTA = 0b00100000; //Configuraci?n del transmisor, habilitaci?n del transmisor y modo asincr?nico, bajas velocidades
     RCSTA = 0b10010000; //Configuraci?n del receptor, habilitaci?n del modulo EUSART, se habilita el receptor
     BAUDCON = 0b00000000; //Configuracion del modulo adc, no inversion logica, divisor de frecuencia 8bits, modo bajo consumo desactivado,
@@ -58,7 +50,7 @@ void main(void) {
     UTRDIS = 1;
     //RBPU = 0; //Activar resistencias pull up
     
-    TempEEPROM = leerDatoEnEEPROM(0);
+    TemperaturaGuardada = LeerDatos(0);
     
     InicializaLCD(); //Funcion para configuracion inicial del LCD
     //Timer0 interrupcion
@@ -71,11 +63,11 @@ void main(void) {
     //Fin de configuracion para Timer0
     BorraLCD(); //Limpiar el LCD
 
-    if (TempEEPROM != 0xFF) {
+    if (TemperaturaGuardada != 0xFF) {
         MensajeLCD_Word("Ultima temp:");
         DireccionaLCD(192);
-        EscribeLCD_c(TempEEPROM / 10 + 48);
-        EscribeLCD_c(TempEEPROM % 10 + 48);
+        EscribeLCD_c(TemperaturaGuardada / 10 + 48);
+        EscribeLCD_c(TemperaturaGuardada % 10 + 48);
         EscribeLCD_c('C');
         __delay_ms(2000);
         BorraLCD();
@@ -83,45 +75,35 @@ void main(void) {
     
     MensajeLCD_Word("Iniciando"); //Escribir mensaje de bienvenida
     __delay_ms(500); //Retraso para evitar errores
-    EscribeLCD_c('.');
-    __delay_ms(500);
-    EscribeLCD_c('.');
-    __delay_ms(500);
-    EscribeLCD_c('.');
-    __delay_ms(500);
     BorraLCD();
     __delay_ms(500);
     
     while (1) {
         __delay_ms(500);
-        //LATD0=1; LED?
-        __delay_ms(500);
-        //LATD0=0;
         LeerHT11();
-        //IniFlag = 1;
-        GuardarDatoEnEEPROM(0, Temp);
+        GuardarDatos(0, Temp);
         ColorRGB(Temp); 
         
         
         if(!RC4) TransmitirDatos(RC0, RC1);
         else TransmitirDatos(A, B);
         
-        Conversion(0);
+        ConvertirUnidades(0);
         RD3 = (ADRES <= 511) ? 0 : 1; //2.5*(2^10-1)/5 
     }
 }
 
 void LeerHT11(void) {
     //Por defecto el pin de comunicaci?n est? en alto, para iniciar la comunicaci?n se debe poner la l?nea de datos en bajo durante 18ms
-    DATA_DIR = 0; //Configura el pin como salida, por defecto su valor de salida es 0
+    TRISC2 = 0; //Configura el pin como salida, por defecto su valor de salida es 0
     __delay_ms(18); //Se esperan los 18ms
-    DATA_DIR = 1; //Se reestablece el pin a entrada digital
+    TRISC2 = 1; //Se reestablece el pin a entrada digital
     //Ahora se espera la respuesta del sensor
-    while (DATA_IN == 1); //Tiempo en alto mientras el sensor responde
+    while (RC2 == 1); //Tiempo en alto mientras el sensor responde
     __delay_us(120); //Pulso bajo, respuesta del sensor 80us, posteriormente pulso en alto de una duraci?n similar.
-    while (DATA_IN == 1); //Tiempo en alto que dura hasta que el sensor toma control del canal de comunicaci?n
+    while (RC2 == 1); //Tiempo en alto que dura hasta que el sensor toma control del canal de comunicaci?n
     //Recepci?n de datos
-    Hum = LeerByte();
+    Humedad = LeerByte();
     LeerByte();
     Temp = LeerByte();
     LeerByte();
@@ -138,13 +120,13 @@ unsigned char LeerByte(void) {
 
 unsigned char LeerBit(void) {
     unsigned char res = 0;
-    while (DATA_IN == 0);
+    while (RC2 == 0);
     __delay_us(13);
-    if (DATA_IN == 1) res = 0; //Si el pulso dura menos de 30 us el bit es 0
+    if (RC2 == 1) res = 0; //Si el pulso dura menos de 30 us el bit es 0
     __delay_us(22);
-    if (DATA_IN == 1) { // Sino, el bit es 1
+    if (RC2 == 1) { // Sino, el bit es 1
         res = 1;
-        while (DATA_IN == 1);
+        while (RC2 == 1);
     }
     return res;
 }
@@ -160,7 +142,7 @@ unsigned char Recibir(void){
 }
 
 void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
-    unsigned int n = Ent1 * 10 + Ent2, TempC = Temp, HumC = Hum;
+    unsigned int n = Ent1 * 10 + Ent2, TempC = Temp, HumedadC = Humedad;
     unsigned int Simb = 67;
     BorraLCD();
     switch (n) {
@@ -205,68 +187,52 @@ void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
     Transmitir('m');
     Transmitir(':');
     Transmitir(' ');
-    Transmitir(Hum / 10 + 48);
-    Transmitir(Hum % 10 + 48);
+    Transmitir(Humedad / 10 + 48);
+    Transmitir(Humedad % 10 + 48);
     Transmitir(' ');
     Transmitir('%');
     Transmitir('\n');
     Transmitir(' ');
-    //Transmision LCD
+    //Imprimir en LCD
     EscribeLCD_c(TempC / 10 + 48);
     EscribeLCD_c(TempC % 10 + 48);
     EscribeLCD_c(Simb);
     DireccionaLCD(192);
     MensajeLCD_Word("Hum:");
-    EscribeLCD_c(Hum / 10 + 48);
-    EscribeLCD_c(Hum % 10 + 48);
+    EscribeLCD_c(Humedad / 10 + 48);
+    EscribeLCD_c(Humedad % 10 + 48);
     EscribeLCD_c('%');
 
 }
 
 void ColorRGB(unsigned int val) {
     if (val < 22) {
-        RB0 = 0;
-        RB1 = 0;
-        RB2 = 0;
+        LATB = 0b00000000;
     } else if (val >= 22 && val < 25) {
-        RB0 = 1;
-        RB1 = 0;
-        RB2 = 1;
+        LATB = 0b00000101;
     } else if (val >= 25 && val < 28) {
-        RB0 = 0;
-        RB1 = 0;
-        RB2 = 1;
+        LATB = 0b00000100;
     } else if (val >= 28 && val < 31) {
-        RB0 = 0;
-        RB1 = 1;
-        RB2 = 1;
+        LATB = 0b00000110;
     } else if (val >= 31 && val < 34) {
-        RB0 = 0;
-        RB1 = 1;
-        RB2 = 0;
+        LATB = 0b00000010;
     } else if (val >= 34 && val < 37) {
-        RB0 = 1;
-        RB1 = 1;
-        RB2 = 0;
+        LATB = 0b00000110;
     } else if (val >= 37 && val < 40) {
-        RB0 = 1;
-        RB1 = 0;
-        RB2 = 0;
+        LATB = 0b00000100;
     } else if (val >= 40) {
-        RB0 = 1;
-        RB1 = 1;
-        RB2 = 1;
+        LATB = 0b00000111;
     }
 }
 
-unsigned int Conversion(unsigned char canal) {
+unsigned int ConvertirUnidades(unsigned char canal) {
     ADCON0 = 0b00000001 | (canal << 2);
     GO = 1; //bsf ADCON0,1
     while (GO == 1);
     return ADRES;
 }
 
-void GuardarDatoEnEEPROM(unsigned int dir, unsigned char dato) {
+void GuardarDatos(unsigned int dir, unsigned char dato) {
     EEADR = dir;
     EEDATA = dato;
     //Configuracion EECON1
@@ -286,7 +252,7 @@ void GuardarDatoEnEEPROM(unsigned int dir, unsigned char dato) {
 
 }
 
-unsigned char leerDatoEnEEPROM(unsigned int dir) {
+unsigned char LeerDatos(unsigned int dir) {
     EEADR = dir; //Establece la direccion a leer
     EEPGD = 0; //Selecciona la memoria EPROM
     CFGS = 0; //Accede a la configuracion de EEPROM

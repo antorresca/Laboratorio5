@@ -39,29 +39,29 @@
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 "91 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\Umul64.c
 [v ___omul __omul `(ul  1 e 4 0 ]
-"35 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
+"28 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
 [v _main main `(v  1 e 1 0 ]
-"114
+"96
 [v _LeerHT11 LeerHT11 `(v  1 e 1 0 ]
-"131
+"113
 [v _LeerByte LeerByte `(uc  1 e 1 0 ]
-"139
+"121
 [v _LeerBit LeerBit `(uc  1 e 1 0 ]
-"152
+"134
 [v _Transmitir Transmitir `(v  1 e 1 0 ]
-"157
+"139
 [v _Recibir Recibir `(uc  1 e 1 0 ]
-"162
+"144
 [v _TransmitirDatos TransmitirDatos `(v  1 e 1 0 ]
-"226
+"208
 [v _ColorRGB ColorRGB `(v  1 e 1 0 ]
-"262
-[v _Conversion Conversion `(ui  1 e 2 0 ]
-"269
-[v _GuardarDatoEnEEPROM GuardarDatoEnEEPROM `(v  1 e 1 0 ]
-"289
-[v _leerDatoEnEEPROM leerDatoEnEEPROM `(uc  1 e 1 0 ]
-"298
+"228
+[v _ConvertirUnidades ConvertirUnidades `(ui  1 e 2 0 ]
+"235
+[v _GuardarDatos GuardarDatos `(v  1 e 1 0 ]
+"255
+[v _LeerDatos LeerDatos `(uc  1 e 1 0 ]
+"264
 [v _ISR ISR `IIH(v  1 e 1 0 ]
 "61 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\LibLCDXC8.h
 [v _EnviaDato EnviaDato `(v  1 e 1 0 ]
@@ -79,7 +79,9 @@
 [v _DireccionaLCD DireccionaLCD `(v  1 e 1 0 ]
 "288
 [v _RetardoLCD RetardoLCD `(v  1 e 1 0 ]
-"3264 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
+"3074 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
+[v _LATB LATB `VEuc  1 e 1 @3978 ]
+"3264
 [v _LATD LATD `VEuc  1 e 1 @3980 ]
 "3428
 [v _TRISA TRISA `VEuc  1 e 1 @3986 ]
@@ -139,12 +141,6 @@
 [v _LATE1 LATE1 `VEb  1 e 0 @31849 ]
 "10022
 [v _LATE2 LATE2 `VEb  1 e 0 @31850 ]
-"10364
-[v _RB0 RB0 `VEb  1 e 0 @31752 ]
-"10367
-[v _RB1 RB1 `VEb  1 e 0 @31753 ]
-"10370
-[v _RB2 RB2 `VEb  1 e 0 @31754 ]
 "10400
 [v _RC0 RC0 `VEb  1 e 0 @31760 ]
 "10403
@@ -179,38 +175,32 @@
 [v _WR WR `VEb  1 e 0 @32049 ]
 "11147
 [v _WREN WREN `VEb  1 e 0 @32050 ]
-"15 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
+"12 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
 [v _Temp Temp `uc  1 e 1 0 ]
-[v _Hum Hum `uc  1 e 1 0 ]
-"16
-[v _TempEEPROM TempEEPROM `uc  1 e 1 0 ]
-"17
+[v _Humedad Humedad `uc  1 e 1 0 ]
+"13
+[v _TemperaturaGuardada TemperaturaGuardada `uc  1 e 1 0 ]
+"14
 [v _A A `ui  1 e 2 0 ]
 [v _B B `ui  1 e 2 0 ]
-"35
+"28
 [v _main main `(v  1 e 1 0 ]
 {
-"112
+"94
 } 0
-"289
-[v _leerDatoEnEEPROM leerDatoEnEEPROM `(uc  1 e 1 0 ]
-{
-[v leerDatoEnEEPROM@dir dir `ui  1 p 2 2 ]
-"296
-} 0
-"162
+"144
 [v _TransmitirDatos TransmitirDatos `(v  1 e 1 0 ]
 {
-"163
+"145
 [v TransmitirDatos@TempC TempC `ui  1 a 2 20 ]
-"164
+"146
 [v TransmitirDatos@Simb Simb `ui  1 a 2 18 ]
-"163
+"145
 [v TransmitirDatos@n n `ui  1 a 2 16 ]
-"162
+"144
 [v TransmitirDatos@Ent1 Ent1 `ui  1 p 2 10 ]
 [v TransmitirDatos@Ent2 Ent2 `ui  1 p 2 12 ]
-"224
+"206
 } 0
 "15 C:\Program Files\Microchip\xc8\v2.40\pic\sources\c90\common\Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
@@ -287,13 +277,13 @@
 [v ___awdiv@divisor divisor `i  1 p 2 4 ]
 "41
 } 0
-"152 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
+"134 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
 [v _Transmitir Transmitir `(v  1 e 1 0 ]
 {
 [v Transmitir@BufferT BufferT `uc  1 a 1 wreg ]
 [v Transmitir@BufferT BufferT `uc  1 a 1 wreg ]
 [v Transmitir@BufferT BufferT `uc  1 a 1 2 ]
-"155
+"137
 } 0
 "241 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\LibLCDXC8.h
 [v _MensajeLCD_Word MensajeLCD_Word `(v  1 e 1 0 ]
@@ -331,25 +321,31 @@
 [v DireccionaLCD@a a `uc  1 a 1 5 ]
 "259
 } 0
-"114 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
+"96 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
 [v _LeerHT11 LeerHT11 `(v  1 e 1 0 ]
 {
-"129
+"111
 } 0
-"131
+"113
 [v _LeerByte LeerByte `(uc  1 e 1 0 ]
 {
-"132
+"114
 [v LeerByte@i i `uc  1 a 1 5 ]
 [v LeerByte@res res `uc  1 a 1 4 ]
-"137
+"119
 } 0
-"139
+"121
 [v _LeerBit LeerBit `(uc  1 e 1 0 ]
 {
-"140
+"122
 [v LeerBit@res res `uc  1 a 1 2 ]
-"150
+"132
+} 0
+"255
+[v _LeerDatos LeerDatos `(uc  1 e 1 0 ]
+{
+[v LeerDatos@dir dir `ui  1 p 2 2 ]
+"262
 } 0
 "73 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\LibLCDXC8.h
 [v _InicializaLCD InicializaLCD `(v  1 e 1 0 ]
@@ -382,34 +378,34 @@
 {
 "113
 } 0
-"269 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
-[v _GuardarDatoEnEEPROM GuardarDatoEnEEPROM `(v  1 e 1 0 ]
+"235 C:\Users\Andres\MPLABXProjects\Laboratorio5.X\Laboratorio5.c
+[v _GuardarDatos GuardarDatos `(v  1 e 1 0 ]
 {
-[v GuardarDatoEnEEPROM@dir dir `ui  1 p 2 2 ]
-[v GuardarDatoEnEEPROM@dato dato `uc  1 p 1 4 ]
-"287
+[v GuardarDatos@dir dir `ui  1 p 2 2 ]
+[v GuardarDatos@dato dato `uc  1 p 1 4 ]
+"253
 } 0
-"262
-[v _Conversion Conversion `(ui  1 e 2 0 ]
+"228
+[v _ConvertirUnidades ConvertirUnidades `(ui  1 e 2 0 ]
 {
-[v Conversion@canal canal `uc  1 a 1 wreg ]
-[v Conversion@canal canal `uc  1 a 1 wreg ]
-[v Conversion@canal canal `uc  1 a 1 2 ]
-"267
+[v ConvertirUnidades@canal canal `uc  1 a 1 wreg ]
+[v ConvertirUnidades@canal canal `uc  1 a 1 wreg ]
+[v ConvertirUnidades@canal canal `uc  1 a 1 2 ]
+"233
 } 0
-"226
+"208
 [v _ColorRGB ColorRGB `(v  1 e 1 0 ]
 {
 [v ColorRGB@val val `ui  1 p 2 2 ]
-"260
+"226
 } 0
-"298
+"264
 [v _ISR ISR `IIH(v  1 e 1 0 ]
 {
-"328
+"294
 } 0
-"157
+"139
 [v _Recibir Recibir `(uc  1 e 1 0 ]
 {
-"160
+"142
 } 0

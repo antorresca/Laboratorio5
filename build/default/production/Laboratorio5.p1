@@ -50,8 +50,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _USBEN `Vb ~T0 @X0 0 e@31595 ]
 "11099
 [v _UTRDIS `Vb ~T0 @X0 0 e@31611 ]
-"31 Laboratorio5.c
-[v _leerDatoEnEEPROM `(uc ~T0 @X0 0 ef1`ui ]
+"26 Laboratorio5.c
+[v _LeerDatos `(uc ~T0 @X0 0 ef1`ui ]
 "8070 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
 [v _T0CON `Vuc ~T0 @X0 0 e@4053 ]
 "10820
@@ -64,15 +64,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _GIE `Vb ~T0 @X0 0 e@32663 ]
 "10826
 [v _TMR0ON `Vb ~T0 @X0 0 e@32431 ]
-"22 Laboratorio5.c
+"17 Laboratorio5.c
 [v _LeerHT11 `(v ~T0 @X0 0 ef ]
-"30
-[v _GuardarDatoEnEEPROM `(v ~T0 @X0 0 ef2`ui`uc ]
-"28
+"25
+[v _GuardarDatos `(v ~T0 @X0 0 ef2`ui`uc ]
+"23
 [v _ColorRGB `(v ~T0 @X0 0 ef1`ui ]
 "10418 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
 [v _RC4 `Vb ~T0 @X0 0 e@31764 ]
-"27 Laboratorio5.c
+"22 Laboratorio5.c
 [v _TransmitirDatos `(v ~T0 @X0 0 ef2`ui`ui ]
 [t ~ __deprecated__ ]
 [t T20 __deprecated__ ]
@@ -80,8 +80,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _RC0 `Vb ~T20 @X0 0 e@31760 ]
 "10403
 [v _RC1 `Vb ~T20 @X0 0 e@31761 ]
-"29 Laboratorio5.c
-[v _Conversion `(ui ~T0 @X0 0 ef1`uc ]
+"24 Laboratorio5.c
+[v _ConvertirUnidades `(ui ~T0 @X0 0 ef1`uc ]
 "10472 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
 [v _RD3 `Vb ~T20 @X0 0 e@31771 ]
 "6786
@@ -90,9 +90,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISC2 `Vb ~T0 @X0 0 e@31906 ]
 "10415
 [v _RC2 `Vb ~T20 @X0 0 e@31762 ]
-"23 Laboratorio5.c
+"18 Laboratorio5.c
 [v _LeerByte `(uc ~T0 @X0 0 ef ]
-"24
+"19
 [v _LeerBit `(uc ~T0 @X0 0 ef ]
 "10979 C:\Program Files\Microchip\xc8\v2.40\pic\include\proc\pic18f4550.h
 [v _TRMT `Vb ~T0 @X0 0 e@32097 ]
@@ -102,12 +102,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _RCIF `Vb ~T0 @X0 0 e@31989 ]
 "5415
 [v _RCREG `Vuc ~T0 @X0 0 e@4014 ]
-"10364
-[v _RB0 `Vb ~T20 @X0 0 e@31752 ]
-"10367
-[v _RB1 `Vb ~T20 @X0 0 e@31753 ]
-"10370
-[v _RB2 `Vb ~T20 @X0 0 e@31754 ]
+"3074
+[v _LATB `Vuc ~T0 @X0 0 e@3978 ]
 "9758
 [v _GO `Vb ~T0 @X0 0 e@32273 ]
 "4930
@@ -4102,14 +4098,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WDT=OFF ]
 "7
 [p x PBADEN=OFF ]
-"15
+"12
 [v _Temp `uc ~T0 @X0 1 e ]
-[v _Hum `uc ~T0 @X0 1 e ]
-[; ;Laboratorio5.c: 15: unsigned char Temp, Hum;
-"16
-[v _TempEEPROM `uc ~T0 @X0 1 e ]
-[; ;Laboratorio5.c: 16: unsigned char TempEEPROM;
-"17
+[v _Humedad `uc ~T0 @X0 1 e ]
+[; ;Laboratorio5.c: 12: unsigned char Temp, Humedad;
+"13
+[v _TemperaturaGuardada `uc ~T0 @X0 1 e ]
+[; ;Laboratorio5.c: 13: unsigned char TemperaturaGuardada;
+"14
 [v _A `ui ~T0 @X0 1 e ]
 [i _A
 -> -> 0 `i `ui
@@ -4118,734 +4114,665 @@ Version 3.2 HI-TECH Software Intermediate Code
 [i _B
 -> -> 0 `i `ui
 ]
-[; ;Laboratorio5.c: 17: unsigned int A=0,B= 0;
-[; ;Laboratorio5.c: 22: void LeerHT11(void);
-[; ;Laboratorio5.c: 23: unsigned char LeerByte(void);
-[; ;Laboratorio5.c: 24: unsigned char LeerBit(void);
-[; ;Laboratorio5.c: 25: void Transmitir(unsigned char);
-[; ;Laboratorio5.c: 26: unsigned char Recibir(void);
-[; ;Laboratorio5.c: 27: void TransmitirDatos(unsigned int Ent1, unsigned int Ent2);
-[; ;Laboratorio5.c: 28: void ColorRGB(unsigned int val);
-[; ;Laboratorio5.c: 29: unsigned int Conversion(unsigned char);
-[; ;Laboratorio5.c: 30: void GuardarDatoEnEEPROM(unsigned int dir, unsigned char Dato);
-[; ;Laboratorio5.c: 31: unsigned char leerDatoEnEEPROM(unsigned int dir);
+[; ;Laboratorio5.c: 14: unsigned int A=0,B= 0;
+[; ;Laboratorio5.c: 17: void LeerHT11(void);
+[; ;Laboratorio5.c: 18: unsigned char LeerByte(void);
+[; ;Laboratorio5.c: 19: unsigned char LeerBit(void);
+[; ;Laboratorio5.c: 20: void Transmitir(unsigned char);
+[; ;Laboratorio5.c: 21: unsigned char Recibir(void);
+[; ;Laboratorio5.c: 22: void TransmitirDatos(unsigned int Ent1, unsigned int Ent2);
+[; ;Laboratorio5.c: 23: void ColorRGB(unsigned int val);
+[; ;Laboratorio5.c: 24: unsigned int ConvertirUnidades(unsigned char);
+[; ;Laboratorio5.c: 25: void GuardarDatos(unsigned int dir, unsigned char Dato);
+[; ;Laboratorio5.c: 26: unsigned char LeerDatos(unsigned int dir);
 [v $root$_main `(v ~T0 @X0 0 e ]
-"35
+"28
 [v _main `(v ~T0 @X0 1 ef ]
 {
-[; ;Laboratorio5.c: 35: void main(void) {
+[; ;Laboratorio5.c: 28: void main(void) {
 [e :U _main ]
 [f ]
-[; ;Laboratorio5.c: 38: OSCCON = 0b01110110;
-"38
+[; ;Laboratorio5.c: 30: OSCCON = 0b01110110;
+"30
 [e = _OSCCON -> -> 118 `i `uc ]
-[; ;Laboratorio5.c: 39: _delay((unsigned long)((1)*(8000000/4000.0)));
-"39
+[; ;Laboratorio5.c: 31: _delay((unsigned long)((1)*(8000000/4000.0)));
+"31
 [e ( __delay (1 -> * -> -> 1 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 40: LATC2 = 0;
-"40
+[; ;Laboratorio5.c: 32: LATC2 = 0;
+"32
 [e = _LATC2 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 41: TXSTA = 0b00100000;
-"41
+[; ;Laboratorio5.c: 33: TXSTA = 0b00100000;
+"33
 [e = _TXSTA -> -> 32 `i `uc ]
-[; ;Laboratorio5.c: 42: RCSTA = 0b10010000;
-"42
+[; ;Laboratorio5.c: 34: RCSTA = 0b10010000;
+"34
 [e = _RCSTA -> -> 144 `i `uc ]
-[; ;Laboratorio5.c: 43: BAUDCON = 0b00000000;
-"43
+[; ;Laboratorio5.c: 35: BAUDCON = 0b00000000;
+"35
 [e = _BAUDCON -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 45: TRISE=0;
-"45
+[; ;Laboratorio5.c: 37: TRISE=0;
+"37
 [e = _TRISE -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 46: SPBRG = 12;
-"46
+[; ;Laboratorio5.c: 38: SPBRG = 12;
+"38
 [e = _SPBRG -> -> 12 `i `uc ]
-[; ;Laboratorio5.c: 48: ADCON0 = 0b00000001;
-"48
+[; ;Laboratorio5.c: 40: ADCON0 = 0b00000001;
+"40
 [e = _ADCON0 -> -> 1 `i `uc ]
-[; ;Laboratorio5.c: 49: ADCON1 = 13;
-"49
+[; ;Laboratorio5.c: 41: ADCON1 = 13;
+"41
 [e = _ADCON1 -> -> 13 `i `uc ]
-[; ;Laboratorio5.c: 50: ADCON2 = 0b10001000;
-"50
+[; ;Laboratorio5.c: 42: ADCON2 = 0b10001000;
+"42
 [e = _ADCON2 -> -> 136 `i `uc ]
-[; ;Laboratorio5.c: 53: TRISB = 0;
-"53
+[; ;Laboratorio5.c: 45: TRISB = 0;
+"45
 [e = _TRISB -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 54: TRISD = 0;
-"54
+[; ;Laboratorio5.c: 46: TRISD = 0;
+"46
 [e = _TRISD -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 55: TRISA = 0b00000001;
-"55
+[; ;Laboratorio5.c: 47: TRISA = 0b00000001;
+"47
 [e = _TRISA -> -> 1 `i `uc ]
-[; ;Laboratorio5.c: 56: TRISC = 0b11010111;
-"56
+[; ;Laboratorio5.c: 48: TRISC = 0b11010111;
+"48
 [e = _TRISC -> -> 215 `i `uc ]
-[; ;Laboratorio5.c: 57: USBEN = 0;
-"57
+[; ;Laboratorio5.c: 49: USBEN = 0;
+"49
 [e = _USBEN -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 58: UTRDIS = 1;
-"58
+[; ;Laboratorio5.c: 50: UTRDIS = 1;
+"50
 [e = _UTRDIS -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 61: TempEEPROM = leerDatoEnEEPROM(0);
-"61
-[e = _TempEEPROM ( _leerDatoEnEEPROM (1 -> -> 0 `i `ui ]
-[; ;Laboratorio5.c: 63: InicializaLCD();
-"63
+[; ;Laboratorio5.c: 53: TemperaturaGuardada = LeerDatos(0);
+"53
+[e = _TemperaturaGuardada ( _LeerDatos (1 -> -> 0 `i `ui ]
+[; ;Laboratorio5.c: 55: InicializaLCD();
+"55
 [e ( _InicializaLCD ..  ]
-[; ;Laboratorio5.c: 65: T0CON=0b00000011;
-"65
+[; ;Laboratorio5.c: 57: T0CON=0b00000011;
+"57
 [e = _T0CON -> -> 3 `i `uc ]
-[; ;Laboratorio5.c: 66: TMR0IF=0;
-"66
+[; ;Laboratorio5.c: 58: TMR0IF=0;
+"58
 [e = _TMR0IF -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 67: TMR0=3036;
-"67
+[; ;Laboratorio5.c: 59: TMR0=3036;
+"59
 [e = _TMR0 -> -> 3036 `i `us ]
-[; ;Laboratorio5.c: 68: TMR0IE=1;
-"68
+[; ;Laboratorio5.c: 60: TMR0IE=1;
+"60
 [e = _TMR0IE -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 69: GIE=1;
-"69
+[; ;Laboratorio5.c: 61: GIE=1;
+"61
 [e = _GIE -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 70: TMR0ON=1;
-"70
+[; ;Laboratorio5.c: 62: TMR0ON=1;
+"62
 [e = _TMR0ON -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 72: BorraLCD();
-"72
+[; ;Laboratorio5.c: 64: BorraLCD();
+"64
 [e ( _BorraLCD ..  ]
-[; ;Laboratorio5.c: 74: if (TempEEPROM != 0xFF) {
-"74
-[e $ ! != -> _TempEEPROM `i -> 255 `i 395  ]
+[; ;Laboratorio5.c: 66: if (TemperaturaGuardada != 0xFF) {
+"66
+[e $ ! != -> _TemperaturaGuardada `i -> 255 `i 395  ]
 {
-[; ;Laboratorio5.c: 75: MensajeLCD_Word("Ultima temp:");
-"75
+[; ;Laboratorio5.c: 67: MensajeLCD_Word("Ultima temp:");
+"67
 [e ( _MensajeLCD_Word (1 -> :s 1C `*uc ]
-[; ;Laboratorio5.c: 76: DireccionaLCD(192);
-"76
+[; ;Laboratorio5.c: 68: DireccionaLCD(192);
+"68
 [e ( _DireccionaLCD (1 -> -> 192 `i `uc ]
-[; ;Laboratorio5.c: 77: EscribeLCD_c(TempEEPROM / 10 + 48);
-"77
-[e ( _EscribeLCD_c (1 -> + / -> _TempEEPROM `i -> 10 `i -> 48 `i `uc ]
-[; ;Laboratorio5.c: 78: EscribeLCD_c(TempEEPROM % 10 + 48);
-"78
-[e ( _EscribeLCD_c (1 -> + % -> _TempEEPROM `i -> 10 `i -> 48 `i `uc ]
-[; ;Laboratorio5.c: 79: EscribeLCD_c('C');
-"79
+[; ;Laboratorio5.c: 69: EscribeLCD_c(TemperaturaGuardada / 10 + 48);
+"69
+[e ( _EscribeLCD_c (1 -> + / -> _TemperaturaGuardada `i -> 10 `i -> 48 `i `uc ]
+[; ;Laboratorio5.c: 70: EscribeLCD_c(TemperaturaGuardada % 10 + 48);
+"70
+[e ( _EscribeLCD_c (1 -> + % -> _TemperaturaGuardada `i -> 10 `i -> 48 `i `uc ]
+[; ;Laboratorio5.c: 71: EscribeLCD_c('C');
+"71
 [e ( _EscribeLCD_c (1 -> -> 67 `ui `uc ]
-[; ;Laboratorio5.c: 80: _delay((unsigned long)((2000)*(8000000/4000.0)));
-"80
+[; ;Laboratorio5.c: 72: _delay((unsigned long)((2000)*(8000000/4000.0)));
+"72
 [e ( __delay (1 -> * -> -> 2000 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 81: BorraLCD();
-"81
+[; ;Laboratorio5.c: 73: BorraLCD();
+"73
 [e ( _BorraLCD ..  ]
-"82
+"74
 }
 [e :U 395 ]
-[; ;Laboratorio5.c: 82: }
-[; ;Laboratorio5.c: 84: MensajeLCD_Word("Iniciando");
-"84
+[; ;Laboratorio5.c: 74: }
+[; ;Laboratorio5.c: 76: MensajeLCD_Word("Iniciando");
+"76
 [e ( _MensajeLCD_Word (1 -> :s 2C `*uc ]
-[; ;Laboratorio5.c: 85: _delay((unsigned long)((500)*(8000000/4000.0)));
-"85
+[; ;Laboratorio5.c: 77: _delay((unsigned long)((500)*(8000000/4000.0)));
+"77
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 86: EscribeLCD_c('.');
-"86
-[e ( _EscribeLCD_c (1 -> -> 46 `ui `uc ]
-[; ;Laboratorio5.c: 87: _delay((unsigned long)((500)*(8000000/4000.0)));
-"87
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 88: EscribeLCD_c('.');
-"88
-[e ( _EscribeLCD_c (1 -> -> 46 `ui `uc ]
-[; ;Laboratorio5.c: 89: _delay((unsigned long)((500)*(8000000/4000.0)));
-"89
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 90: EscribeLCD_c('.');
-"90
-[e ( _EscribeLCD_c (1 -> -> 46 `ui `uc ]
-[; ;Laboratorio5.c: 91: _delay((unsigned long)((500)*(8000000/4000.0)));
-"91
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 92: BorraLCD();
-"92
+[; ;Laboratorio5.c: 78: BorraLCD();
+"78
 [e ( _BorraLCD ..  ]
-[; ;Laboratorio5.c: 93: _delay((unsigned long)((500)*(8000000/4000.0)));
-"93
+[; ;Laboratorio5.c: 79: _delay((unsigned long)((500)*(8000000/4000.0)));
+"79
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 95: while (1) {
-"95
+[; ;Laboratorio5.c: 81: while (1) {
+"81
 [e :U 397 ]
 {
-[; ;Laboratorio5.c: 96: _delay((unsigned long)((500)*(8000000/4000.0)));
-"96
+[; ;Laboratorio5.c: 82: _delay((unsigned long)((500)*(8000000/4000.0)));
+"82
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 98: _delay((unsigned long)((500)*(8000000/4000.0)));
-"98
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 100: LeerHT11();
-"100
+[; ;Laboratorio5.c: 83: LeerHT11();
+"83
 [e ( _LeerHT11 ..  ]
-[; ;Laboratorio5.c: 102: GuardarDatoEnEEPROM(0, Temp);
-"102
-[e ( _GuardarDatoEnEEPROM (2 , -> -> 0 `i `ui _Temp ]
-[; ;Laboratorio5.c: 103: ColorRGB(Temp);
-"103
+[; ;Laboratorio5.c: 84: GuardarDatos(0, Temp);
+"84
+[e ( _GuardarDatos (2 , -> -> 0 `i `ui _Temp ]
+[; ;Laboratorio5.c: 85: ColorRGB(Temp);
+"85
 [e ( _ColorRGB (1 -> _Temp `ui ]
-[; ;Laboratorio5.c: 106: if(!RC4) TransmitirDatos(RC0, RC1);
-"106
+[; ;Laboratorio5.c: 88: if(!RC4) TransmitirDatos(RC0, RC1);
+"88
 [e $ ! ! _RC4 399  ]
 [e ( _TransmitirDatos (2 , -> -> _RC0 `i `ui -> -> _RC1 `i `ui ]
 [e $U 400  ]
-"107
+"89
 [e :U 399 ]
-[; ;Laboratorio5.c: 107: else TransmitirDatos(A, B);
+[; ;Laboratorio5.c: 89: else TransmitirDatos(A, B);
 [e ( _TransmitirDatos (2 , _A _B ]
 [e :U 400 ]
-[; ;Laboratorio5.c: 109: Conversion(0);
-"109
-[e ( _Conversion (1 -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 110: RD3 = (ADRES <= 511) ? 0 : 1;
-"110
+[; ;Laboratorio5.c: 91: ConvertirUnidades(0);
+"91
+[e ( _ConvertirUnidades (1 -> -> 0 `i `uc ]
+[; ;Laboratorio5.c: 92: RD3 = (ADRES <= 511) ? 0 : 1;
+"92
 [e = _RD3 -> ? <= -> _ADRES `ui -> -> 511 `i `ui : -> 0 `i -> 1 `i `b ]
-"111
+"93
 }
 [e :U 396 ]
-"95
+"81
 [e $U 397  ]
 [e :U 398 ]
-[; ;Laboratorio5.c: 111: }
-[; ;Laboratorio5.c: 112: }
-"112
+[; ;Laboratorio5.c: 93: }
+[; ;Laboratorio5.c: 94: }
+"94
 [e :UE 394 ]
 }
-"114
+"96
 [v _LeerHT11 `(v ~T0 @X0 1 ef ]
 {
-[; ;Laboratorio5.c: 114: void LeerHT11(void) {
+[; ;Laboratorio5.c: 96: void LeerHT11(void) {
 [e :U _LeerHT11 ]
 [f ]
-[; ;Laboratorio5.c: 116: TRISC2 = 0;
-"116
+[; ;Laboratorio5.c: 98: TRISC2 = 0;
+"98
 [e = _TRISC2 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 117: _delay((unsigned long)((18)*(8000000/4000.0)));
-"117
+[; ;Laboratorio5.c: 99: _delay((unsigned long)((18)*(8000000/4000.0)));
+"99
 [e ( __delay (1 -> * -> -> 18 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-[; ;Laboratorio5.c: 118: TRISC2 = 1;
-"118
+[; ;Laboratorio5.c: 100: TRISC2 = 1;
+"100
 [e = _TRISC2 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 120: while (RC2 == 1);
-"120
+[; ;Laboratorio5.c: 102: while (RC2 == 1);
+"102
 [e $U 402  ]
 [e :U 403 ]
 [e :U 402 ]
 [e $ == -> _RC2 `i -> 1 `i 403  ]
 [e :U 404 ]
-[; ;Laboratorio5.c: 121: _delay((unsigned long)((120)*(8000000/4000000.0)));
-"121
+[; ;Laboratorio5.c: 103: _delay((unsigned long)((120)*(8000000/4000000.0)));
+"103
 [e ( __delay (1 -> * -> -> 120 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
-[; ;Laboratorio5.c: 122: while (RC2 == 1);
-"122
+[; ;Laboratorio5.c: 104: while (RC2 == 1);
+"104
 [e $U 405  ]
 [e :U 406 ]
 [e :U 405 ]
 [e $ == -> _RC2 `i -> 1 `i 406  ]
 [e :U 407 ]
-[; ;Laboratorio5.c: 124: Hum = LeerByte();
-"124
-[e = _Hum ( _LeerByte ..  ]
-[; ;Laboratorio5.c: 125: LeerByte();
-"125
+[; ;Laboratorio5.c: 106: Humedad = LeerByte();
+"106
+[e = _Humedad ( _LeerByte ..  ]
+[; ;Laboratorio5.c: 107: LeerByte();
+"107
 [e ( _LeerByte ..  ]
-[; ;Laboratorio5.c: 126: Temp = LeerByte();
-"126
+[; ;Laboratorio5.c: 108: Temp = LeerByte();
+"108
 [e = _Temp ( _LeerByte ..  ]
-[; ;Laboratorio5.c: 127: LeerByte();
-"127
+[; ;Laboratorio5.c: 109: LeerByte();
+"109
 [e ( _LeerByte ..  ]
-[; ;Laboratorio5.c: 128: LeerByte();
-"128
+[; ;Laboratorio5.c: 110: LeerByte();
+"110
 [e ( _LeerByte ..  ]
-[; ;Laboratorio5.c: 129: }
-"129
+[; ;Laboratorio5.c: 111: }
+"111
 [e :UE 401 ]
 }
-"131
+"113
 [v _LeerByte `(uc ~T0 @X0 1 ef ]
 {
-[; ;Laboratorio5.c: 131: unsigned char LeerByte(void) {
+[; ;Laboratorio5.c: 113: unsigned char LeerByte(void) {
 [e :U _LeerByte ]
 [f ]
-"132
+"114
 [v _res `uc ~T0 @X0 1 a ]
-[; ;Laboratorio5.c: 132: unsigned char res = 0, i;
+[; ;Laboratorio5.c: 114: unsigned char res = 0, i;
 [e = _res -> -> 0 `i `uc ]
 [v _i `uc ~T0 @X0 1 a ]
-[; ;Laboratorio5.c: 133: for (i = 8; i > 0; i--) {
-"133
+[; ;Laboratorio5.c: 115: for (i = 8; i > 0; i--) {
+"115
 {
 [e = _i -> -> 8 `i `uc ]
 [e $ > -> _i `i -> 0 `i 409  ]
 [e $U 410  ]
 [e :U 409 ]
 {
-[; ;Laboratorio5.c: 134: res = (res << 1) | LeerBit();
-"134
+[; ;Laboratorio5.c: 116: res = (res << 1) | LeerBit();
+"116
 [e = _res -> | << -> _res `i -> 1 `i -> ( _LeerBit ..  `i `uc ]
-"135
+"117
 }
-"133
+"115
 [e -- _i -> -> 1 `i `uc ]
 [e $ > -> _i `i -> 0 `i 409  ]
 [e :U 410 ]
-"135
+"117
 }
-[; ;Laboratorio5.c: 135: }
-[; ;Laboratorio5.c: 136: return res;
-"136
+[; ;Laboratorio5.c: 117: }
+[; ;Laboratorio5.c: 118: return res;
+"118
 [e ) _res ]
 [e $UE 408  ]
-[; ;Laboratorio5.c: 137: }
-"137
+[; ;Laboratorio5.c: 119: }
+"119
 [e :UE 408 ]
 }
-"139
+"121
 [v _LeerBit `(uc ~T0 @X0 1 ef ]
 {
-[; ;Laboratorio5.c: 139: unsigned char LeerBit(void) {
+[; ;Laboratorio5.c: 121: unsigned char LeerBit(void) {
 [e :U _LeerBit ]
 [f ]
-"140
+"122
 [v _res `uc ~T0 @X0 1 a ]
-[; ;Laboratorio5.c: 140: unsigned char res = 0;
+[; ;Laboratorio5.c: 122: unsigned char res = 0;
 [e = _res -> -> 0 `i `uc ]
-[; ;Laboratorio5.c: 141: while (RC2 == 0);
-"141
+[; ;Laboratorio5.c: 123: while (RC2 == 0);
+"123
 [e $U 413  ]
 [e :U 414 ]
 [e :U 413 ]
 [e $ == -> _RC2 `i -> 0 `i 414  ]
 [e :U 415 ]
-[; ;Laboratorio5.c: 142: _delay((unsigned long)((13)*(8000000/4000000.0)));
-"142
+[; ;Laboratorio5.c: 124: _delay((unsigned long)((13)*(8000000/4000000.0)));
+"124
 [e ( __delay (1 -> * -> -> 13 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
-[; ;Laboratorio5.c: 143: if (RC2 == 1) res = 0;
-"143
+[; ;Laboratorio5.c: 125: if (RC2 == 1) res = 0;
+"125
 [e $ ! == -> _RC2 `i -> 1 `i 416  ]
 [e = _res -> -> 0 `i `uc ]
 [e :U 416 ]
-[; ;Laboratorio5.c: 144: _delay((unsigned long)((22)*(8000000/4000000.0)));
-"144
+[; ;Laboratorio5.c: 126: _delay((unsigned long)((22)*(8000000/4000000.0)));
+"126
 [e ( __delay (1 -> * -> -> 22 `i `d / -> -> 8000000 `l `d .4000000.0 `ul ]
-[; ;Laboratorio5.c: 145: if (RC2 == 1) {
-"145
+[; ;Laboratorio5.c: 127: if (RC2 == 1) {
+"127
 [e $ ! == -> _RC2 `i -> 1 `i 417  ]
 {
-[; ;Laboratorio5.c: 146: res = 1;
-"146
+[; ;Laboratorio5.c: 128: res = 1;
+"128
 [e = _res -> -> 1 `i `uc ]
-[; ;Laboratorio5.c: 147: while (RC2 == 1);
-"147
+[; ;Laboratorio5.c: 129: while (RC2 == 1);
+"129
 [e $U 418  ]
 [e :U 419 ]
 [e :U 418 ]
 [e $ == -> _RC2 `i -> 1 `i 419  ]
 [e :U 420 ]
-"148
+"130
 }
 [e :U 417 ]
-[; ;Laboratorio5.c: 148: }
-[; ;Laboratorio5.c: 149: return res;
-"149
+[; ;Laboratorio5.c: 130: }
+[; ;Laboratorio5.c: 131: return res;
+"131
 [e ) _res ]
 [e $UE 412  ]
-[; ;Laboratorio5.c: 150: }
-"150
+[; ;Laboratorio5.c: 132: }
+"132
 [e :UE 412 ]
 }
-"152
+"134
 [v _Transmitir `(v ~T0 @X0 1 ef1`uc ]
 {
-[; ;Laboratorio5.c: 152: void Transmitir(unsigned char BufferT) {
+[; ;Laboratorio5.c: 134: void Transmitir(unsigned char BufferT) {
 [e :U _Transmitir ]
 [v _BufferT `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Laboratorio5.c: 153: while (TRMT == 0);
-"153
+[; ;Laboratorio5.c: 135: while (TRMT == 0);
+"135
 [e $U 422  ]
 [e :U 423 ]
 [e :U 422 ]
 [e $ == -> _TRMT `i -> 0 `i 423  ]
 [e :U 424 ]
-[; ;Laboratorio5.c: 154: TXREG = BufferT;
-"154
+[; ;Laboratorio5.c: 136: TXREG = BufferT;
+"136
 [e = _TXREG _BufferT ]
-[; ;Laboratorio5.c: 155: }
-"155
+[; ;Laboratorio5.c: 137: }
+"137
 [e :UE 421 ]
 }
-"157
+"139
 [v _Recibir `(uc ~T0 @X0 1 ef ]
 {
-[; ;Laboratorio5.c: 157: unsigned char Recibir(void){
+[; ;Laboratorio5.c: 139: unsigned char Recibir(void){
 [e :U _Recibir ]
 [f ]
-[; ;Laboratorio5.c: 158: while(RCIF==0);
-"158
+[; ;Laboratorio5.c: 140: while(RCIF==0);
+"140
 [e $U 426  ]
 [e :U 427 ]
 [e :U 426 ]
 [e $ == -> _RCIF `i -> 0 `i 427  ]
 [e :U 428 ]
-[; ;Laboratorio5.c: 159: return RCREG;
-"159
+[; ;Laboratorio5.c: 141: return RCREG;
+"141
 [e ) _RCREG ]
 [e $UE 425  ]
-[; ;Laboratorio5.c: 160: }
-"160
+[; ;Laboratorio5.c: 142: }
+"142
 [e :UE 425 ]
 }
-"162
+"144
 [v _TransmitirDatos `(v ~T0 @X0 1 ef2`ui`ui ]
 {
-[; ;Laboratorio5.c: 162: void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
+[; ;Laboratorio5.c: 144: void TransmitirDatos(unsigned int Ent1, unsigned int Ent2) {
 [e :U _TransmitirDatos ]
 [v _Ent1 `ui ~T0 @X0 1 r1 ]
 [v _Ent2 `ui ~T0 @X0 1 r2 ]
 [f ]
-"163
+"145
 [v _n `ui ~T0 @X0 1 a ]
-[; ;Laboratorio5.c: 163: unsigned int n = Ent1 * 10 + Ent2, TempC = Temp, HumC = Hum;
+[; ;Laboratorio5.c: 145: unsigned int n = Ent1 * 10 + Ent2, TempC = Temp, HumedadC = Humedad;
 [e = _n + * _Ent1 -> -> 10 `i `ui _Ent2 ]
 [v _TempC `ui ~T0 @X0 1 a ]
 [e = _TempC -> _Temp `ui ]
-[v _HumC `ui ~T0 @X0 1 a ]
-[e = _HumC -> _Hum `ui ]
-"164
+[v _HumedadC `ui ~T0 @X0 1 a ]
+[e = _HumedadC -> _Humedad `ui ]
+"146
 [v _Simb `ui ~T0 @X0 1 a ]
-[; ;Laboratorio5.c: 164: unsigned int Simb = 67;
+[; ;Laboratorio5.c: 146: unsigned int Simb = 67;
 [e = _Simb -> -> 67 `i `ui ]
-[; ;Laboratorio5.c: 165: BorraLCD();
-"165
+[; ;Laboratorio5.c: 147: BorraLCD();
+"147
 [e ( _BorraLCD ..  ]
-[; ;Laboratorio5.c: 166: switch (n) {
-"166
+[; ;Laboratorio5.c: 148: switch (n) {
+"148
 [e $U 431  ]
 {
-[; ;Laboratorio5.c: 167: case 00:
-"167
+[; ;Laboratorio5.c: 149: case 00:
+"149
 [e :U 432 ]
-[; ;Laboratorio5.c: 168: TempC = Temp;
-"168
+[; ;Laboratorio5.c: 150: TempC = Temp;
+"150
 [e = _TempC -> _Temp `ui ]
-[; ;Laboratorio5.c: 169: Simb = 67;
-"169
+[; ;Laboratorio5.c: 151: Simb = 67;
+"151
 [e = _Simb -> -> 67 `i `ui ]
-[; ;Laboratorio5.c: 170: break;
-"170
+[; ;Laboratorio5.c: 152: break;
+"152
 [e $U 430  ]
-[; ;Laboratorio5.c: 171: case 01:
-"171
+[; ;Laboratorio5.c: 153: case 01:
+"153
 [e :U 433 ]
-[; ;Laboratorio5.c: 172: TempC = Temp + 273;
-"172
+[; ;Laboratorio5.c: 154: TempC = Temp + 273;
+"154
 [e = _TempC -> + -> _Temp `i -> 273 `i `ui ]
-[; ;Laboratorio5.c: 173: Simb = 75;
-"173
+[; ;Laboratorio5.c: 155: Simb = 75;
+"155
 [e = _Simb -> -> 75 `i `ui ]
-[; ;Laboratorio5.c: 174: break;
-"174
+[; ;Laboratorio5.c: 156: break;
+"156
 [e $U 430  ]
-[; ;Laboratorio5.c: 175: case 10:
-"175
+[; ;Laboratorio5.c: 157: case 10:
+"157
 [e :U 434 ]
-[; ;Laboratorio5.c: 176: TempC = Temp * 9 / 5 + 492;
-"176
+[; ;Laboratorio5.c: 158: TempC = Temp * 9 / 5 + 492;
+"158
 [e = _TempC -> + / * -> _Temp `i -> 9 `i -> 5 `i -> 492 `i `ui ]
-[; ;Laboratorio5.c: 177: Simb = 82;
-"177
+[; ;Laboratorio5.c: 159: Simb = 82;
+"159
 [e = _Simb -> -> 82 `i `ui ]
-[; ;Laboratorio5.c: 178: break;
-"178
+[; ;Laboratorio5.c: 160: break;
+"160
 [e $U 430  ]
-[; ;Laboratorio5.c: 179: case 11:
-"179
+[; ;Laboratorio5.c: 161: case 11:
+"161
 [e :U 435 ]
-[; ;Laboratorio5.c: 180: TempC = Temp * 9 / 5 + 32;
-"180
+[; ;Laboratorio5.c: 162: TempC = Temp * 9 / 5 + 32;
+"162
 [e = _TempC -> + / * -> _Temp `i -> 9 `i -> 5 `i -> 32 `i `ui ]
-[; ;Laboratorio5.c: 181: Simb = 70;
-"181
+[; ;Laboratorio5.c: 163: Simb = 70;
+"163
 [e = _Simb -> -> 70 `i `ui ]
-[; ;Laboratorio5.c: 182: break;
-"182
+[; ;Laboratorio5.c: 164: break;
+"164
 [e $U 430  ]
-"183
+"165
 }
-[; ;Laboratorio5.c: 183: }
+[; ;Laboratorio5.c: 165: }
 [e $U 430  ]
-"166
+"148
 [e :U 431 ]
 [e [\ _n , $ -> -> 0 `i `ui 432
  , $ -> -> 1 `i `ui 433
  , $ -> -> 10 `i `ui 434
  , $ -> -> 11 `i `ui 435
  430 ]
-"183
+"165
 [e :U 430 ]
-[; ;Laboratorio5.c: 184: Transmitir('T');
-"184
+[; ;Laboratorio5.c: 166: Transmitir('T');
+"166
 [e ( _Transmitir (1 -> -> 84 `ui `uc ]
-[; ;Laboratorio5.c: 185: Transmitir('e');
-"185
+[; ;Laboratorio5.c: 167: Transmitir('e');
+"167
 [e ( _Transmitir (1 -> -> 101 `ui `uc ]
-[; ;Laboratorio5.c: 186: Transmitir('m');
-"186
+[; ;Laboratorio5.c: 168: Transmitir('m');
+"168
 [e ( _Transmitir (1 -> -> 109 `ui `uc ]
-[; ;Laboratorio5.c: 187: Transmitir('p');
-"187
+[; ;Laboratorio5.c: 169: Transmitir('p');
+"169
 [e ( _Transmitir (1 -> -> 112 `ui `uc ]
+[; ;Laboratorio5.c: 170: Transmitir(':');
+"170
+[e ( _Transmitir (1 -> -> 58 `ui `uc ]
+[; ;Laboratorio5.c: 171: Transmitir(' ');
+"171
+[e ( _Transmitir (1 -> -> 32 `ui `uc ]
+[; ;Laboratorio5.c: 173: MensajeLCD_Word("Temp:");
+"173
+[e ( _MensajeLCD_Word (1 -> :s 3C `*uc ]
+[; ;Laboratorio5.c: 174: if (TempC / 100 > 0) {
+"174
+[e $ ! > / _TempC -> -> 100 `i `ui -> -> 0 `i `ui 436  ]
+{
+[; ;Laboratorio5.c: 175: Transmitir(TempC / 100 + 48);
+"175
+[e ( _Transmitir (1 -> + / _TempC -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
+[; ;Laboratorio5.c: 176: EscribeLCD_c(TempC / 100 + 48);
+"176
+[e ( _EscribeLCD_c (1 -> + / _TempC -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
+[; ;Laboratorio5.c: 177: TempC = TempC % 100;
+"177
+[e = _TempC % _TempC -> -> 100 `i `ui ]
+"178
+}
+[e :U 436 ]
+[; ;Laboratorio5.c: 178: }
+[; ;Laboratorio5.c: 179: Transmitir(TempC / 10 + 48);
+"179
+[e ( _Transmitir (1 -> + / _TempC -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
+[; ;Laboratorio5.c: 180: Transmitir(TempC % 10 + 48);
+"180
+[e ( _Transmitir (1 -> + % _TempC -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
+[; ;Laboratorio5.c: 181: Transmitir(167);
+"181
+[e ( _Transmitir (1 -> -> 167 `i `uc ]
+[; ;Laboratorio5.c: 182: Transmitir(Simb);
+"182
+[e ( _Transmitir (1 -> _Simb `uc ]
+[; ;Laboratorio5.c: 183: Transmitir(' ');
+"183
+[e ( _Transmitir (1 -> -> 32 `ui `uc ]
+[; ;Laboratorio5.c: 184: Transmitir('\n');
+"184
+[e ( _Transmitir (1 -> -> 10 `ui `uc ]
+[; ;Laboratorio5.c: 185: Transmitir('H');
+"185
+[e ( _Transmitir (1 -> -> 72 `ui `uc ]
+[; ;Laboratorio5.c: 186: Transmitir('u');
+"186
+[e ( _Transmitir (1 -> -> 117 `ui `uc ]
+[; ;Laboratorio5.c: 187: Transmitir('m');
+"187
+[e ( _Transmitir (1 -> -> 109 `ui `uc ]
 [; ;Laboratorio5.c: 188: Transmitir(':');
 "188
 [e ( _Transmitir (1 -> -> 58 `ui `uc ]
 [; ;Laboratorio5.c: 189: Transmitir(' ');
 "189
 [e ( _Transmitir (1 -> -> 32 `ui `uc ]
-[; ;Laboratorio5.c: 191: MensajeLCD_Word("Temp:");
+[; ;Laboratorio5.c: 190: Transmitir(Humedad / 10 + 48);
+"190
+[e ( _Transmitir (1 -> + / -> _Humedad `i -> 10 `i -> 48 `i `uc ]
+[; ;Laboratorio5.c: 191: Transmitir(Humedad % 10 + 48);
 "191
-[e ( _MensajeLCD_Word (1 -> :s 3C `*uc ]
-[; ;Laboratorio5.c: 192: if (TempC / 100 > 0) {
+[e ( _Transmitir (1 -> + % -> _Humedad `i -> 10 `i -> 48 `i `uc ]
+[; ;Laboratorio5.c: 192: Transmitir(' ');
 "192
-[e $ ! > / _TempC -> -> 100 `i `ui -> -> 0 `i `ui 436  ]
-{
-[; ;Laboratorio5.c: 193: Transmitir(TempC / 100 + 48);
+[e ( _Transmitir (1 -> -> 32 `ui `uc ]
+[; ;Laboratorio5.c: 193: Transmitir('%');
 "193
-[e ( _Transmitir (1 -> + / _TempC -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
-[; ;Laboratorio5.c: 194: EscribeLCD_c(TempC / 100 + 48);
-"194
-[e ( _EscribeLCD_c (1 -> + / _TempC -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
-[; ;Laboratorio5.c: 195: TempC = TempC % 100;
-"195
-[e = _TempC % _TempC -> -> 100 `i `ui ]
-"196
-}
-[e :U 436 ]
-[; ;Laboratorio5.c: 196: }
-[; ;Laboratorio5.c: 197: Transmitir(TempC / 10 + 48);
-"197
-[e ( _Transmitir (1 -> + / _TempC -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
-[; ;Laboratorio5.c: 198: Transmitir(TempC % 10 + 48);
-"198
-[e ( _Transmitir (1 -> + % _TempC -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
-[; ;Laboratorio5.c: 199: Transmitir(167);
-"199
-[e ( _Transmitir (1 -> -> 167 `i `uc ]
-[; ;Laboratorio5.c: 200: Transmitir(Simb);
-"200
-[e ( _Transmitir (1 -> _Simb `uc ]
-[; ;Laboratorio5.c: 201: Transmitir(' ');
-"201
-[e ( _Transmitir (1 -> -> 32 `ui `uc ]
-[; ;Laboratorio5.c: 202: Transmitir('\n');
-"202
-[e ( _Transmitir (1 -> -> 10 `ui `uc ]
-[; ;Laboratorio5.c: 203: Transmitir('H');
-"203
-[e ( _Transmitir (1 -> -> 72 `ui `uc ]
-[; ;Laboratorio5.c: 204: Transmitir('u');
-"204
-[e ( _Transmitir (1 -> -> 117 `ui `uc ]
-[; ;Laboratorio5.c: 205: Transmitir('m');
-"205
-[e ( _Transmitir (1 -> -> 109 `ui `uc ]
-[; ;Laboratorio5.c: 206: Transmitir(':');
-"206
-[e ( _Transmitir (1 -> -> 58 `ui `uc ]
-[; ;Laboratorio5.c: 207: Transmitir(' ');
-"207
-[e ( _Transmitir (1 -> -> 32 `ui `uc ]
-[; ;Laboratorio5.c: 208: Transmitir(Hum / 10 + 48);
-"208
-[e ( _Transmitir (1 -> + / -> _Hum `i -> 10 `i -> 48 `i `uc ]
-[; ;Laboratorio5.c: 209: Transmitir(Hum % 10 + 48);
-"209
-[e ( _Transmitir (1 -> + % -> _Hum `i -> 10 `i -> 48 `i `uc ]
-[; ;Laboratorio5.c: 210: Transmitir(' ');
-"210
-[e ( _Transmitir (1 -> -> 32 `ui `uc ]
-[; ;Laboratorio5.c: 211: Transmitir('%');
-"211
 [e ( _Transmitir (1 -> -> 37 `ui `uc ]
-[; ;Laboratorio5.c: 212: Transmitir('\n');
-"212
+[; ;Laboratorio5.c: 194: Transmitir('\n');
+"194
 [e ( _Transmitir (1 -> -> 10 `ui `uc ]
-[; ;Laboratorio5.c: 213: Transmitir(' ');
-"213
+[; ;Laboratorio5.c: 195: Transmitir(' ');
+"195
 [e ( _Transmitir (1 -> -> 32 `ui `uc ]
-[; ;Laboratorio5.c: 215: EscribeLCD_c(TempC / 10 + 48);
-"215
+[; ;Laboratorio5.c: 197: EscribeLCD_c(TempC / 10 + 48);
+"197
 [e ( _EscribeLCD_c (1 -> + / _TempC -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
-[; ;Laboratorio5.c: 216: EscribeLCD_c(TempC % 10 + 48);
-"216
+[; ;Laboratorio5.c: 198: EscribeLCD_c(TempC % 10 + 48);
+"198
 [e ( _EscribeLCD_c (1 -> + % _TempC -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
-[; ;Laboratorio5.c: 217: EscribeLCD_c(Simb);
-"217
+[; ;Laboratorio5.c: 199: EscribeLCD_c(Simb);
+"199
 [e ( _EscribeLCD_c (1 -> _Simb `uc ]
-[; ;Laboratorio5.c: 218: DireccionaLCD(192);
-"218
+[; ;Laboratorio5.c: 200: DireccionaLCD(192);
+"200
 [e ( _DireccionaLCD (1 -> -> 192 `i `uc ]
-[; ;Laboratorio5.c: 219: MensajeLCD_Word("Hum:");
-"219
+[; ;Laboratorio5.c: 201: MensajeLCD_Word("Hum:");
+"201
 [e ( _MensajeLCD_Word (1 -> :s 4C `*uc ]
-[; ;Laboratorio5.c: 220: EscribeLCD_c(Hum / 10 + 48);
-"220
-[e ( _EscribeLCD_c (1 -> + / -> _Hum `i -> 10 `i -> 48 `i `uc ]
-[; ;Laboratorio5.c: 221: EscribeLCD_c(Hum % 10 + 48);
-"221
-[e ( _EscribeLCD_c (1 -> + % -> _Hum `i -> 10 `i -> 48 `i `uc ]
-[; ;Laboratorio5.c: 222: EscribeLCD_c('%');
-"222
+[; ;Laboratorio5.c: 202: EscribeLCD_c(Humedad / 10 + 48);
+"202
+[e ( _EscribeLCD_c (1 -> + / -> _Humedad `i -> 10 `i -> 48 `i `uc ]
+[; ;Laboratorio5.c: 203: EscribeLCD_c(Humedad % 10 + 48);
+"203
+[e ( _EscribeLCD_c (1 -> + % -> _Humedad `i -> 10 `i -> 48 `i `uc ]
+[; ;Laboratorio5.c: 204: EscribeLCD_c('%');
+"204
 [e ( _EscribeLCD_c (1 -> -> 37 `ui `uc ]
-[; ;Laboratorio5.c: 224: }
-"224
+[; ;Laboratorio5.c: 206: }
+"206
 [e :UE 429 ]
 }
-"226
+"208
 [v _ColorRGB `(v ~T0 @X0 1 ef1`ui ]
 {
-[; ;Laboratorio5.c: 226: void ColorRGB(unsigned int val) {
+[; ;Laboratorio5.c: 208: void ColorRGB(unsigned int val) {
 [e :U _ColorRGB ]
 [v _val `ui ~T0 @X0 1 r1 ]
 [f ]
-[; ;Laboratorio5.c: 227: if (val < 22) {
-"227
+[; ;Laboratorio5.c: 209: if (val < 22) {
+"209
 [e $ ! < _val -> -> 22 `i `ui 438  ]
 {
-[; ;Laboratorio5.c: 228: RB0 = 0;
-"228
-[e = _RB0 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 229: RB1 = 0;
-"229
-[e = _RB1 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 230: RB2 = 0;
-"230
-[e = _RB2 -> -> 0 `i `b ]
-"231
+[; ;Laboratorio5.c: 210: LATB = 0b00000000;
+"210
+[e = _LATB -> -> 0 `i `uc ]
+"211
 }
-[; ;Laboratorio5.c: 231: } else if (val >= 22 && val < 25) {
+[; ;Laboratorio5.c: 211: } else if (val >= 22 && val < 25) {
 [e $U 439  ]
 [e :U 438 ]
 [e $ ! && >= _val -> -> 22 `i `ui < _val -> -> 25 `i `ui 440  ]
 {
-[; ;Laboratorio5.c: 232: RB0 = 1;
-"232
-[e = _RB0 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 233: RB1 = 0;
-"233
-[e = _RB1 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 234: RB2 = 1;
-"234
-[e = _RB2 -> -> 1 `i `b ]
-"235
+[; ;Laboratorio5.c: 212: LATB = 0b00000101;
+"212
+[e = _LATB -> -> 5 `i `uc ]
+"213
 }
-[; ;Laboratorio5.c: 235: } else if (val >= 25 && val < 28) {
+[; ;Laboratorio5.c: 213: } else if (val >= 25 && val < 28) {
 [e $U 441  ]
 [e :U 440 ]
 [e $ ! && >= _val -> -> 25 `i `ui < _val -> -> 28 `i `ui 442  ]
 {
-[; ;Laboratorio5.c: 236: RB0 = 0;
-"236
-[e = _RB0 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 237: RB1 = 0;
-"237
-[e = _RB1 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 238: RB2 = 1;
-"238
-[e = _RB2 -> -> 1 `i `b ]
-"239
+[; ;Laboratorio5.c: 214: LATB = 0b00000100;
+"214
+[e = _LATB -> -> 4 `i `uc ]
+"215
 }
-[; ;Laboratorio5.c: 239: } else if (val >= 28 && val < 31) {
+[; ;Laboratorio5.c: 215: } else if (val >= 28 && val < 31) {
 [e $U 443  ]
 [e :U 442 ]
 [e $ ! && >= _val -> -> 28 `i `ui < _val -> -> 31 `i `ui 444  ]
 {
-[; ;Laboratorio5.c: 240: RB0 = 0;
-"240
-[e = _RB0 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 241: RB1 = 1;
-"241
-[e = _RB1 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 242: RB2 = 1;
-"242
-[e = _RB2 -> -> 1 `i `b ]
-"243
+[; ;Laboratorio5.c: 216: LATB = 0b00000110;
+"216
+[e = _LATB -> -> 6 `i `uc ]
+"217
 }
-[; ;Laboratorio5.c: 243: } else if (val >= 31 && val < 34) {
+[; ;Laboratorio5.c: 217: } else if (val >= 31 && val < 34) {
 [e $U 445  ]
 [e :U 444 ]
 [e $ ! && >= _val -> -> 31 `i `ui < _val -> -> 34 `i `ui 446  ]
 {
-[; ;Laboratorio5.c: 244: RB0 = 0;
-"244
-[e = _RB0 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 245: RB1 = 1;
-"245
-[e = _RB1 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 246: RB2 = 0;
-"246
-[e = _RB2 -> -> 0 `i `b ]
-"247
+[; ;Laboratorio5.c: 218: LATB = 0b00000010;
+"218
+[e = _LATB -> -> 2 `i `uc ]
+"219
 }
-[; ;Laboratorio5.c: 247: } else if (val >= 34 && val < 37) {
+[; ;Laboratorio5.c: 219: } else if (val >= 34 && val < 37) {
 [e $U 447  ]
 [e :U 446 ]
 [e $ ! && >= _val -> -> 34 `i `ui < _val -> -> 37 `i `ui 448  ]
 {
-[; ;Laboratorio5.c: 248: RB0 = 1;
-"248
-[e = _RB0 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 249: RB1 = 1;
-"249
-[e = _RB1 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 250: RB2 = 0;
-"250
-[e = _RB2 -> -> 0 `i `b ]
-"251
+[; ;Laboratorio5.c: 220: LATB = 0b00000110;
+"220
+[e = _LATB -> -> 6 `i `uc ]
+"221
 }
-[; ;Laboratorio5.c: 251: } else if (val >= 37 && val < 40) {
+[; ;Laboratorio5.c: 221: } else if (val >= 37 && val < 40) {
 [e $U 449  ]
 [e :U 448 ]
 [e $ ! && >= _val -> -> 37 `i `ui < _val -> -> 40 `i `ui 450  ]
 {
-[; ;Laboratorio5.c: 252: RB0 = 1;
-"252
-[e = _RB0 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 253: RB1 = 0;
-"253
-[e = _RB1 -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 254: RB2 = 0;
-"254
-[e = _RB2 -> -> 0 `i `b ]
-"255
+[; ;Laboratorio5.c: 222: LATB = 0b00000100;
+"222
+[e = _LATB -> -> 4 `i `uc ]
+"223
 }
-[; ;Laboratorio5.c: 255: } else if (val >= 40) {
+[; ;Laboratorio5.c: 223: } else if (val >= 40) {
 [e $U 451  ]
 [e :U 450 ]
 [e $ ! >= _val -> -> 40 `i `ui 452  ]
 {
-[; ;Laboratorio5.c: 256: RB0 = 1;
-"256
-[e = _RB0 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 257: RB1 = 1;
-"257
-[e = _RB1 -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 258: RB2 = 1;
-"258
-[e = _RB2 -> -> 1 `i `b ]
-"259
+[; ;Laboratorio5.c: 224: LATB = 0b00000111;
+"224
+[e = _LATB -> -> 7 `i `uc ]
+"225
 }
 [e :U 452 ]
-"260
+"226
 [e :U 451 ]
 [e :U 449 ]
 [e :U 447 ]
@@ -4853,228 +4780,228 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 443 ]
 [e :U 441 ]
 [e :U 439 ]
-[; ;Laboratorio5.c: 259: }
-[; ;Laboratorio5.c: 260: }
+[; ;Laboratorio5.c: 225: }
+[; ;Laboratorio5.c: 226: }
 [e :UE 437 ]
 }
-"262
-[v _Conversion `(ui ~T0 @X0 1 ef1`uc ]
+"228
+[v _ConvertirUnidades `(ui ~T0 @X0 1 ef1`uc ]
 {
-[; ;Laboratorio5.c: 262: unsigned int Conversion(unsigned char canal) {
-[e :U _Conversion ]
+[; ;Laboratorio5.c: 228: unsigned int ConvertirUnidades(unsigned char canal) {
+[e :U _ConvertirUnidades ]
 [v _canal `uc ~T0 @X0 1 r1 ]
 [f ]
-[; ;Laboratorio5.c: 263: ADCON0 = 0b00000001 | (canal << 2);
-"263
+[; ;Laboratorio5.c: 229: ADCON0 = 0b00000001 | (canal << 2);
+"229
 [e = _ADCON0 -> | -> 1 `i << -> _canal `i -> 2 `i `uc ]
-[; ;Laboratorio5.c: 264: GO = 1;
-"264
+[; ;Laboratorio5.c: 230: GO = 1;
+"230
 [e = _GO -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 265: while (GO == 1);
-"265
+[; ;Laboratorio5.c: 231: while (GO == 1);
+"231
 [e $U 454  ]
 [e :U 455 ]
 [e :U 454 ]
 [e $ == -> _GO `i -> 1 `i 455  ]
 [e :U 456 ]
-[; ;Laboratorio5.c: 266: return ADRES;
-"266
+[; ;Laboratorio5.c: 232: return ADRES;
+"232
 [e ) -> _ADRES `ui ]
 [e $UE 453  ]
-[; ;Laboratorio5.c: 267: }
-"267
+[; ;Laboratorio5.c: 233: }
+"233
 [e :UE 453 ]
 }
-"269
-[v _GuardarDatoEnEEPROM `(v ~T0 @X0 1 ef2`ui`uc ]
+"235
+[v _GuardarDatos `(v ~T0 @X0 1 ef2`ui`uc ]
 {
-[; ;Laboratorio5.c: 269: void GuardarDatoEnEEPROM(unsigned int dir, unsigned char dato) {
-[e :U _GuardarDatoEnEEPROM ]
+[; ;Laboratorio5.c: 235: void GuardarDatos(unsigned int dir, unsigned char dato) {
+[e :U _GuardarDatos ]
 [v _dir `ui ~T0 @X0 1 r1 ]
 [v _dato `uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;Laboratorio5.c: 270: EEADR = dir;
-"270
+[; ;Laboratorio5.c: 236: EEADR = dir;
+"236
 [e = _EEADR -> _dir `uc ]
-[; ;Laboratorio5.c: 271: EEDATA = dato;
-"271
+[; ;Laboratorio5.c: 237: EEDATA = dato;
+"237
 [e = _EEDATA _dato ]
-[; ;Laboratorio5.c: 273: EEPGD = 0;
-"273
+[; ;Laboratorio5.c: 239: EEPGD = 0;
+"239
 [e = _EEPGD -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 274: CFGS = 0;
-"274
+[; ;Laboratorio5.c: 240: CFGS = 0;
+"240
 [e = _CFGS -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 275: WREN = 1;
-"275
+[; ;Laboratorio5.c: 241: WREN = 1;
+"241
 [e = _WREN -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 277: GIE = 0;
-"277
+[; ;Laboratorio5.c: 243: GIE = 0;
+"243
 [e = _GIE -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 279: EECON2 = 0x55;
-"279
+[; ;Laboratorio5.c: 245: EECON2 = 0x55;
+"245
 [e = _EECON2 -> -> 85 `i `uc ]
-[; ;Laboratorio5.c: 280: EECON2 = 0xAA;
-"280
+[; ;Laboratorio5.c: 246: EECON2 = 0xAA;
+"246
 [e = _EECON2 -> -> 170 `i `uc ]
-[; ;Laboratorio5.c: 281: WR = 1;
-"281
+[; ;Laboratorio5.c: 247: WR = 1;
+"247
 [e = _WR -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 282: GIE = 1;
-"282
+[; ;Laboratorio5.c: 248: GIE = 1;
+"248
 [e = _GIE -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 283: while (!EEIF);
-"283
+[; ;Laboratorio5.c: 249: while (!EEIF);
+"249
 [e $U 458  ]
 [e :U 459 ]
 [e :U 458 ]
 [e $ ! _EEIF 459  ]
 [e :U 460 ]
-[; ;Laboratorio5.c: 284: EEIF = 0;
-"284
+[; ;Laboratorio5.c: 250: EEIF = 0;
+"250
 [e = _EEIF -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 285: WREN = 0;
-"285
+[; ;Laboratorio5.c: 251: WREN = 0;
+"251
 [e = _WREN -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 287: }
-"287
+[; ;Laboratorio5.c: 253: }
+"253
 [e :UE 457 ]
 }
-"289
-[v _leerDatoEnEEPROM `(uc ~T0 @X0 1 ef1`ui ]
+"255
+[v _LeerDatos `(uc ~T0 @X0 1 ef1`ui ]
 {
-[; ;Laboratorio5.c: 289: unsigned char leerDatoEnEEPROM(unsigned int dir) {
-[e :U _leerDatoEnEEPROM ]
+[; ;Laboratorio5.c: 255: unsigned char LeerDatos(unsigned int dir) {
+[e :U _LeerDatos ]
 [v _dir `ui ~T0 @X0 1 r1 ]
 [f ]
-[; ;Laboratorio5.c: 290: EEADR = dir;
-"290
+[; ;Laboratorio5.c: 256: EEADR = dir;
+"256
 [e = _EEADR -> _dir `uc ]
-[; ;Laboratorio5.c: 291: EEPGD = 0;
-"291
+[; ;Laboratorio5.c: 257: EEPGD = 0;
+"257
 [e = _EEPGD -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 292: CFGS = 0;
-"292
+[; ;Laboratorio5.c: 258: CFGS = 0;
+"258
 [e = _CFGS -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 293: RD = 1;
-"293
+[; ;Laboratorio5.c: 259: RD = 1;
+"259
 [e = _RD -> -> 1 `i `b ]
-[; ;Laboratorio5.c: 295: return EEDATA;
-"295
+[; ;Laboratorio5.c: 261: return EEDATA;
+"261
 [e ) _EEDATA ]
 [e $UE 461  ]
-[; ;Laboratorio5.c: 296: }
-"296
+[; ;Laboratorio5.c: 262: }
+"262
 [e :UE 461 ]
 }
 [v $root$_ISR `(v ~T0 @X0 0 e ]
-"298
+"264
 [v _ISR `(v ~T47 @X0 1 ef ]
 {
-[; ;Laboratorio5.c: 298: void __interrupt() ISR(void){
+[; ;Laboratorio5.c: 264: void __interrupt() ISR(void){
 [e :U _ISR ]
 [f ]
-[; ;Laboratorio5.c: 299: if(TMR0IF){
-"299
+[; ;Laboratorio5.c: 265: if(TMR0IF){
+"265
 [e $ ! _TMR0IF 463  ]
 {
-[; ;Laboratorio5.c: 300: TMR0IF=0;
-"300
+[; ;Laboratorio5.c: 266: TMR0IF=0;
+"266
 [e = _TMR0IF -> -> 0 `i `b ]
-[; ;Laboratorio5.c: 301: RE0 = !RE0;
-"301
+[; ;Laboratorio5.c: 267: RE0 = !RE0;
+"267
 [e = _RE0 ! _RE0 ]
-[; ;Laboratorio5.c: 302: TMR0 = 3036;
-"302
+[; ;Laboratorio5.c: 268: TMR0 = 3036;
+"268
 [e = _TMR0 -> -> 3036 `i `us ]
-"304
+"270
 }
 [e :U 463 ]
-[; ;Laboratorio5.c: 304: }
-[; ;Laboratorio5.c: 305: if(RCIF){
-"305
+[; ;Laboratorio5.c: 270: }
+[; ;Laboratorio5.c: 271: if(RCIF){
+"271
 [e $ ! _RCIF 464  ]
 {
-[; ;Laboratorio5.c: 306: switch (Recibir()){
-"306
+[; ;Laboratorio5.c: 272: switch (Recibir()){
+"272
 [e $U 466  ]
 {
-[; ;Laboratorio5.c: 307: case 'C':
-"307
+[; ;Laboratorio5.c: 273: case 'C':
+"273
 [e :U 467 ]
-[; ;Laboratorio5.c: 308: A=0;
-"308
+[; ;Laboratorio5.c: 274: A=0;
+"274
 [e = _A -> -> 0 `i `ui ]
-[; ;Laboratorio5.c: 309: B=0;
-"309
+[; ;Laboratorio5.c: 275: B=0;
+"275
 [e = _B -> -> 0 `i `ui ]
-[; ;Laboratorio5.c: 310: break;
-"310
+[; ;Laboratorio5.c: 276: break;
+"276
 [e $U 465  ]
-[; ;Laboratorio5.c: 311: case 'K':
-"311
+[; ;Laboratorio5.c: 277: case 'K':
+"277
 [e :U 468 ]
-[; ;Laboratorio5.c: 312: A=0;
-"312
+[; ;Laboratorio5.c: 278: A=0;
+"278
 [e = _A -> -> 0 `i `ui ]
-[; ;Laboratorio5.c: 313: B=1;
-"313
+[; ;Laboratorio5.c: 279: B=1;
+"279
 [e = _B -> -> 1 `i `ui ]
-[; ;Laboratorio5.c: 314: break;
-"314
+[; ;Laboratorio5.c: 280: break;
+"280
 [e $U 465  ]
-[; ;Laboratorio5.c: 315: case 'R':
-"315
+[; ;Laboratorio5.c: 281: case 'R':
+"281
 [e :U 469 ]
-[; ;Laboratorio5.c: 316: A=1;
-"316
+[; ;Laboratorio5.c: 282: A=1;
+"282
 [e = _A -> -> 1 `i `ui ]
-[; ;Laboratorio5.c: 317: B=0;
-"317
+[; ;Laboratorio5.c: 283: B=0;
+"283
 [e = _B -> -> 0 `i `ui ]
-[; ;Laboratorio5.c: 318: break;
-"318
+[; ;Laboratorio5.c: 284: break;
+"284
 [e $U 465  ]
-[; ;Laboratorio5.c: 319: case 'F':
-"319
+[; ;Laboratorio5.c: 285: case 'F':
+"285
 [e :U 470 ]
-[; ;Laboratorio5.c: 320: A=1;
-"320
+[; ;Laboratorio5.c: 286: A=1;
+"286
 [e = _A -> -> 1 `i `ui ]
-[; ;Laboratorio5.c: 321: B=1;
-"321
+[; ;Laboratorio5.c: 287: B=1;
+"287
 [e = _B -> -> 1 `i `ui ]
-[; ;Laboratorio5.c: 322: break;
-"322
+[; ;Laboratorio5.c: 288: break;
+"288
 [e $U 465  ]
-[; ;Laboratorio5.c: 323: default:
-"323
+[; ;Laboratorio5.c: 289: default:
+"289
 [e :U 471 ]
-[; ;Laboratorio5.c: 324: break;
-"324
+[; ;Laboratorio5.c: 290: break;
+"290
 [e $U 465  ]
-"325
+"291
 }
-[; ;Laboratorio5.c: 325: }
+[; ;Laboratorio5.c: 291: }
 [e $U 465  ]
-"306
+"272
 [e :U 466 ]
 [e [\ ( _Recibir ..  , $ -> -> 67 `ui `uc 467
  , $ -> -> 75 `ui `uc 468
  , $ -> -> 82 `ui `uc 469
  , $ -> -> 70 `ui `uc 470
  471 ]
-"325
+"291
 [e :U 465 ]
-[; ;Laboratorio5.c: 326: _delay((unsigned long)((100)*(8000000/4000.0)));
-"326
+[; ;Laboratorio5.c: 292: _delay((unsigned long)((100)*(8000000/4000.0)));
+"292
 [e ( __delay (1 -> * -> -> 100 `i `d / -> -> 8000000 `l `d .4000.0 `ul ]
-"327
+"293
 }
 [e :U 464 ]
-[; ;Laboratorio5.c: 327: }
-[; ;Laboratorio5.c: 328: }
-"328
+[; ;Laboratorio5.c: 293: }
+[; ;Laboratorio5.c: 294: }
+"294
 [e :UE 462 ]
 }
 [a 2C 73 110 105 99 105 97 110 100 111 0 ]
